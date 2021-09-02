@@ -208,13 +208,21 @@ const SignUp = () => {
                     )}
                 </div>
                 <div>
-                    <Typography onClick={signIn} variant="button">
+                    <Typography
+                        onClick={signIn}
+                        variant="button"
+                        style={{ cursor: "pointer" }}
+                    >
                         Đăng nhập
                     </Typography>
                     <Typography variant="button" style={{ margin: "0 5px" }}>
                         |
                     </Typography>
-                    <Typography onClick={signUp} variant="button">
+                    <Typography
+                        onClick={signUp}
+                        variant="button"
+                        style={{ cursor: "pointer" }}
+                    >
                         Đăng ký
                     </Typography>
                 </div>
