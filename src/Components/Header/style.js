@@ -2,10 +2,14 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyle = makeStyles((theme) => {
     return {
+        navbarHeader: {
+            backgroundColor: "#fff",
+            boxShadow: "0 0 15px rgb(0 0 0 / 30%)",
+        },
         logo: {
             backgroundImage: 'url("../logo.svg")',
-            height: 50,
-            width: 250,
+            height: 40,
+            width: 180,
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
@@ -17,16 +21,18 @@ const useStyle = makeStyles((theme) => {
         },
         navLink: {
             marginRight: theme.spacing(3),
-            color: "rgba(255,255,255,.5)",
             textDecoration: "none",
             fontSize: 16,
+            fontWeight: 500,
             lineHeight: 1.4,
             transition: "all .5s",
+            color: "#9b9b9b",
+            cursor: "pointer",
             "&:hover": {
-                color: "#fff",
+                color: theme.palette.primary.main,
             },
             "&.active": {
-                color: "#fbbd61",
+                color: theme.palette.primary.main,
             },
         },
         modal: {

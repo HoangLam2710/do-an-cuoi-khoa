@@ -1,15 +1,5 @@
 import React from "react";
-import {
-    Container,
-    Typography,
-    Card,
-    CardActionArea,
-    CardMedia,
-    CardContent,
-    CardActions,
-    Button,
-    Grid,
-} from "@material-ui/core";
+import { Container, Typography, Grid, Box } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 //import { NavLink } from "react-router-dom";
 import useStyle from "./style";
@@ -24,7 +14,9 @@ import "../../../node_modules/slick-carousel/slick/slick.css";
 import "../../../node_modules/slick-carousel/slick/slick-theme.css";
 import { PlayArrow } from "@material-ui/icons";
 import classNames from "classnames";
-import { NavLink } from "react-router-dom";
+import { Rating } from "@material-ui/lab";
+import { Tabs } from "antd";
+import "../../../node_modules/antd/dist/antd.css";
 
 function NextArrow(props) {
     const { className, style, onClick } = props;
@@ -50,9 +42,17 @@ function PrevArrow(props) {
     );
 }
 
+const { TabPane } = Tabs;
+
 const Home = (props) => {
     const classes = useStyle();
     const dispatch = useDispatch();
+
+    const settings = {
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />,
+    };
+
     const page = useSelector((state) => {
         return state.movie.page;
     });
@@ -61,9 +61,9 @@ const Home = (props) => {
         return state.movie.movieList;
     });
 
-    // const banner = useSelector((state) => {
-    //     return state.movie.banner;
-    // });
+    const banner = useSelector((state) => {
+        return state.movie.banner;
+    });
 
     useEffect(() => {
         dispatch(fetchMovies(page));
@@ -74,7 +74,13 @@ const Home = (props) => {
         (event, value) => {
             dispatch(createAction(actionTypes.SET_PAGE, value));
             dispatch(fetchMovies(value));
-            window.scroll({ top: 0, behavior: "smooth" });
+            let listFilm = document
+                .getElementById("listFilm")
+                .getBoundingClientRect();
+            window.scroll({
+                top: listFilm.y + window.scrollY - 100,
+                behavior: "smooth",
+            });
         },
         [dispatch]
     );
@@ -90,49 +96,41 @@ const Home = (props) => {
         [dispatch, props.history]
     );
 
-    const settings = {
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />,
-    };
-
     return (
         <Container maxWidth="false" style={{ padding: 0 }}>
             {/* slider */}
             <Slider {...settings}>
-                <NavLink to="/" className={classes.bannerHome}>
-                    <img
-                        className={classes.bannerImg}
-                        src="../lat-mat-48h.png"
-                        alt="slider"
-                    />
-                    <div class={classes.backgroundLinear}></div>
+                {banner.map((item) => {
+                    return (
+                        <Box
+                            key={item.maBanner}
+                            onClick={directDetail(item.maPhim)}
+                            className={classes.bannerHome}
+                        >
+                            <img
+                                className={classes.bannerImg}
+                                src={item.hinhAnh}
+                                alt="slider"
+                            />
+                            <div className={classes.backgroundLinear}></div>
 
-                    <PlayArrow
-                        className={classNames(
-                            classes.playTrailer,
-                            classes.showHover
-                        )}
-                    />
-                </NavLink>
-                <NavLink to="/" className={classes.bannerHome}>
-                    <img
-                        className={classes.bannerImg}
-                        src="../ban-tay-diet-quy-evil.png"
-                        alt="slider"
-                    />
-                    <div class={classes.backgroundLinear}></div>
-
-                    <PlayArrow
-                        className={classNames(
-                            classes.playTrailer,
-                            classes.showHover
-                        )}
-                    />
-                </NavLink>
+                            <PlayArrow
+                                className={classNames(
+                                    classes.playTrailer,
+                                    classes.showHover
+                                )}
+                            />
+                        </Box>
+                    );
+                })}
             </Slider>
 
             {/* list film */}
-            <Container maxWidth="md" style={{ margin: "50px auto" }}>
+            <Container
+                id="listFilm"
+                maxWidth="md"
+                style={{ margin: "50px auto" }}
+            >
                 <Grid container spacing={3}>
                     {movieList.items?.map((movie) => {
                         return (
@@ -144,46 +142,39 @@ const Home = (props) => {
                                 md={4}
                                 lg={3}
                             >
-                                <Card>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            component="img"
-                                            alt={movie.tenPhim}
-                                            height="400"
-                                            image={movie.hinhAnh}
-                                            title="image"
+                                <Box className={classes.listMovie}>
+                                    <img
+                                        className={classes.imgMovie}
+                                        src={movie.hinhAnh}
+                                        alt={movie.tenPhim}
+                                    />
+
+                                    <Box className={classes.movieWrap}>
+                                        <Box className={classes.movieReadmore}>
+                                            <PlayArrow
+                                                className={
+                                                    classes.buttonReadmore
+                                                }
+                                                onClick={directDetail(
+                                                    movie.maPhim
+                                                )}
+                                            ></PlayArrow>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                                <Box style={{ textAlign: "center" }}>
+                                    <Typography className={classes.movieTitle}>
+                                        {movie.tenPhim}
+                                    </Typography>
+                                    <Box>
+                                        <Rating
+                                            name="read-only"
+                                            value={movie.danhGia / 2}
+                                            precision={0.5}
+                                            readOnly
                                         />
-                                        <CardContent>
-                                            <Typography
-                                                gutterBottom
-                                                variant="h5"
-                                                component="h2"
-                                                color="textPrimary"
-                                            >
-                                                {movie.tenPhim}
-                                            </Typography>
-                                            <Typography
-                                                variant="body2"
-                                                color="textPrimary"
-                                                component="p"
-                                            >
-                                                {movie.moTa.substring(0, 100) +
-                                                    "..."}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                    <CardActions>
-                                        <Button
-                                            component={Button}
-                                            size="small"
-                                            color="primary"
-                                            variant="contained"
-                                            onClick={directDetail(movie.maPhim)}
-                                        >
-                                            Chi tiết
-                                        </Button>
-                                    </CardActions>
-                                </Card>
+                                    </Box>
+                                </Box>
                             </Grid>
                         );
                     })}
@@ -195,6 +186,25 @@ const Home = (props) => {
                     onChange={hanldChangePage}
                     defaultPage={page}
                 />
+            </Container>
+
+            {/* cinema */}
+            <Container
+                id="cinema"
+                maxWidth="md"
+                style={{ margin: "50px auto" }}
+            >
+                <Tabs tabPosition="left">
+                    <TabPane tab="Tab 1" key="1">
+                        Content of Tab 1
+                    </TabPane>
+                    <TabPane tab="Tab 2" key="2">
+                        Content of Tab 2
+                    </TabPane>
+                    <TabPane tab="Tab 3" key="3">
+                        Content of Tab 3
+                    </TabPane>
+                </Tabs>
             </Container>
         </Container>
     );

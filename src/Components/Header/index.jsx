@@ -50,9 +50,9 @@ const Header = () => {
     }, [dispatch]);
 
     return (
-        <AppBar position="sticky" style={{ backgroundColor: "#000" }}>
+        <AppBar position="sticky" className={classes.navbarHeader}>
             <Toolbar>
-                <Container>
+                <Container style={{ padding: "10px 0" }}>
                     <NavLink exact to="/">
                         <div className={classes.logo}></div>
                     </NavLink>
@@ -85,7 +85,12 @@ const Header = () => {
                             >
                                 Đăng nhập
                             </Typography>
-                            <Typography style={{ margin: "0 5px 0 -19px" }}>
+                            <Typography
+                                style={{
+                                    margin: "0 5px 0 -19px",
+                                    color: "#9b9b9b",
+                                }}
+                            >
                                 |
                             </Typography>
                             <Typography
