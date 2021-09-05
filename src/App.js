@@ -13,11 +13,11 @@ import { ThemeProvider } from "@material-ui/core";
 import theme from "./Theme";
 
 const App = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getUser);
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(getUser);
+  }, [dispatch]);
 
     return (
         <BrowserRouter>

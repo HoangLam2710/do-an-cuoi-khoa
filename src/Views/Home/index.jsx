@@ -22,27 +22,27 @@ import "../../../node_modules/slick-carousel/slick/slick-theme.css";
 import "../../../node_modules/antd/dist/antd.css";
 
 function NextArrow(props) {
-    const { className, style, onClick } = props;
-    const classes = useStyle();
-    return (
-        <div
-            className={classNames(className, classes.nextArrow)}
-            style={{ ...style }}
-            onClick={onClick}
-        />
-    );
+  const { className, style, onClick } = props;
+  const classes = useStyle();
+  return (
+    <div
+      className={classNames(className, classes.nextArrow)}
+      style={{ ...style }}
+      onClick={onClick}
+    />
+  );
 }
 
 function PrevArrow(props) {
-    const { className, style, onClick } = props;
-    const classes = useStyle();
-    return (
-        <div
-            className={classNames(className, classes.prevArrow)}
-            style={{ ...style }}
-            onClick={onClick}
-        />
-    );
+  const { className, style, onClick } = props;
+  const classes = useStyle();
+  return (
+    <div
+      className={classNames(className, classes.prevArrow)}
+      style={{ ...style }}
+      onClick={onClick}
+    />
+  );
 }
 
 const { TabPane } = Tabs;

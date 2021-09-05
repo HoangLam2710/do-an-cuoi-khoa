@@ -3,31 +3,32 @@ import { actionTypes } from "./types";
 import { request } from "../../API/request";
 
 export const signInUser = (user, callback) => () => {
+
     request({
         url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/DangKy",
         method: "POST",
         data: user,
+  })
+    .then((res) => {
+      callback();
     })
-        .then((res) => {
-            console.log(res);
-            callback();
-        })
-        .catch((err) => console.log(err));
+    .catch((err) => console.log(err));
 };
 
 export const signUpUser = (user, callback) => (dispatch) => {
+
     request({
         url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/DangNhap",
         method: "POST",
         data: user,
+  })
+    .then((res) => {
+      dispatch(createAction(actionTypes.SET_USER, res.data));
+      localStorage.setItem("t", res.data.accessToken);
+      localStorage.setItem("taiKhoan", res.data.taiKhoan);
+      callback();
     })
-        .then((res) => {
-            dispatch(createAction(actionTypes.SET_USER, res.data));
-            localStorage.setItem("t", res.data.accessToken);
-            localStorage.setItem("taiKhoan", res.data.taiKhoan);
-            callback();
-        })
-        .catch((err) => console.log(err));
+    .catch((err) => console.log(err));
 };
 
 export const getUser = (dispatch) => {
@@ -37,10 +38,10 @@ export const getUser = (dispatch) => {
         data: {
             taiKhoan: localStorage.getItem("taiKhoan"),
         },
+  })
+    .then((res) => {
+      console.log(res);
+      dispatch(createAction(actionTypes.SET_USER, res.data));
     })
-        .then((res) => {
-            console.log(res);
-            dispatch(createAction(actionTypes.SET_USER, res.data));
-        })
-        .catch((err) => console.log(err));
+    .catch((err) => console.log(err));
 };
