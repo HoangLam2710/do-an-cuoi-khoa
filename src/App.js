@@ -2,6 +2,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./Views/Home/";
 import Detail from "./Views/Detail/";
 import User from "./Views/User/";
+import Cinema from "./Components/Cinema";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUser } from "./Store/actions/auth";
@@ -18,20 +19,25 @@ const App = () => {
     dispatch(getUser);
   }, [dispatch]);
 
-  return (
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <Layout>
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/detail/:id" component={Detail} />
-            <AuthRoute path="/user" Component={User} redirectPath="/" />
-            <Route path="*" component={PageNotFound} />
-          </Switch>
-        </Layout>
-      </ThemeProvider>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <ThemeProvider theme={theme}>
+                <Layout>
+                    <Switch>
+                        <Route path="/" exact component={Home} />
+                        <Route path="/detail/:id" component={Detail} />
+                        <Route path="/cinema" component={Cinema} />
+                        <AuthRoute
+                            path="/user"
+                            Component={User}
+                            redirectPath="/"
+                        />
+                        <Route path="*" component={PageNotFound} />
+                    </Switch>
+                </Layout>
+            </ThemeProvider>
+        </BrowserRouter>
+    );
 };
 
 export default App;

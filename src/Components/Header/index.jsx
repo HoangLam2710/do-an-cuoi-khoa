@@ -7,6 +7,7 @@ import {
     Backdrop,
     Fade,
     Modal,
+    Box,
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import useStyle from "./style";
@@ -49,30 +50,37 @@ const Header = () => {
         dispatch(createAction(actionTypes.SET_LOGIN, false));
     }, [dispatch]);
 
+    const hideCinema = (open) => {
+        return () => {
+            let active = document.getElementById("sideMenu");
+            open
+                ? active.classList.add("active")
+                : active.classList.remove("active");
+        };
+    };
+
     return (
         <AppBar position="sticky" className={classes.navbarHeader}>
             <Toolbar>
-                <Container style={{ padding: "10px 0" }}>
+                <Container>
                     <NavLink exact to="/">
                         <div className={classes.logo}></div>
                     </NavLink>
                 </Container>
 
                 <Container className={classes.menu}>
-                    <NavLink to="/" className={classes.navLink}>
+                    <a href="/#listfilm" className={classes.navLink}>
                         Lịch chiếu
-                    </NavLink>
-                    <NavLink to="/" className={classes.navLink}>
+                    </a>
+                    <a href="/#cinema" className={classes.navLink}>
                         Cụm rạp
-                    </NavLink>
-                    <NavLink to="/" className={classes.navLink}>
-                        Tin tức
-                    </NavLink>
-                    <NavLink to="/" className={classes.navLink}>
+                    </a>
+                    <a href="/#app" className={classes.navLink}>
                         Ứng dụng
-                    </NavLink>
+                    </a>
                 </Container>
-                <Container className={classes.menu}>
+
+                <Container className={classes.signin}>
                     {user ? (
                         <NavLink to="/user" className={classes.navLink}>
                             Hi, {user.hoTen?.toUpperCase()}
@@ -87,7 +95,7 @@ const Header = () => {
                             </Typography>
                             <Typography
                                 style={{
-                                    margin: "0 5px 0 -19px",
+                                    margin: "0 -20px",
                                     color: "#9b9b9b",
                                 }}
                             >
@@ -101,6 +109,62 @@ const Header = () => {
                             </Typography>
                         </>
                     )}
+                </Container>
+
+                <Container className={classes.rightMenu}>
+                    <img
+                        src="../assets/img/menu-options.png"
+                        alt="menu mobile"
+                        onClick={hideCinema(true)}
+                    />
+                </Container>
+
+                <Container
+                    id="sideMenu"
+                    className={classes.sideMenu}
+                    onClick={hideCinema(false)}
+                >
+                    <Container className={classes.wrapMenuMobile}>
+                        <Container className={classes.wrapFirst}>
+                            {user ? (
+                                <NavLink to="/user" className={classes.navLink}>
+                                    Hi, {user.hoTen?.toUpperCase()}
+                                </NavLink>
+                            ) : (
+                                <Box
+                                    className={classes.titleMenuMobile}
+                                    onClick={() => handleOpen(true)}
+                                >
+                                    <img
+                                        src="../assets/img/avatar.png"
+                                        alt="login"
+                                    />
+                                    <Typography
+                                        variant="subtitle2"
+                                        className={classes.navLink}
+                                        component="span"
+                                    >
+                                        Đăng nhập
+                                    </Typography>
+                                </Box>
+                            )}
+                            <img
+                                src="../assets/img/next-session.png"
+                                alt="menu mobile"
+                                className={classes.close}
+                                onClick={hideCinema(false)}
+                            />
+                        </Container>
+                        <a href="/#listfilm" className={classes.navLinkMobile}>
+                            Lịch chiếu
+                        </a>
+                        <NavLink to="/cinema" className={classes.navLinkMobile}>
+                            Cụm rạp
+                        </NavLink>
+                        <a href="/#app" className={classes.navLinkMobile}>
+                            Ứng dụng
+                        </a>
+                    </Container>
                 </Container>
             </Toolbar>
 
