@@ -6,4 +6,6 @@ export const actionTypes = {
     SET_USER: "SET_USER",
     SET_PAGE: "SET_PAGE",
     SET_BANNER: "SET_BANNER",
+    SET_CINEMAS: "SET_CINEMAS",
+    SET_CUMRAP: "SET_CUMRAP",
 };

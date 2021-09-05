@@ -118,23 +118,23 @@ const Footer = () => {
                         >
                             MOVIESTAR
                         </Typography>
-                        <Grid container>
-                            <Grid xs={6}>
+                        <Grid container className={classes.contentFooterMobile}>
+                            <Grid sm={12} md={6}>
                                 <a href="/" className={classes.contentFooter}>
                                     FAQ
                                 </a>
                             </Grid>
-                            <Grid xs={6}>
+                            <Grid sm={12} md={6}>
                                 <a href="/" className={classes.contentFooter}>
                                     Thỏa thuận sử dụng
                                 </a>
                             </Grid>
-                            <Grid xs={6}>
+                            <Grid sm={12} md={6}>
                                 <a href="/" className={classes.contentFooter}>
                                     Brand Guidelines
                                 </a>
                             </Grid>
-                            <Grid xs={6}>
+                            <Grid sm={12} md={6}>
                                 <a href="/" className={classes.contentFooter}>
                                     Chính sách bảo mật
                                 </a>
@@ -168,8 +168,8 @@ const Footer = () => {
                         </Grid>
                     </Grid>
                     <Grid xs={12} sm={4}>
-                        <Grid container>
-                            <Grid xs={6}>
+                        <Grid container className={classes.contentFooterMobile}>
+                            <Grid sm={6}>
                                 <Typography
                                     component="h2"
                                     className={classes.titleFooter}
@@ -191,7 +191,7 @@ const Footer = () => {
                                     />
                                 </a>
                             </Grid>
-                            <Grid xs={6}>
+                            <Grid sm={6}>
                                 <Typography
                                     component="h2"
                                     className={classes.titleFooter}
@@ -216,14 +216,16 @@ const Footer = () => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid
-                    container
-                    style={{ borderTop: "1px solid rgba(255,255,255,.5)" }}
+                <Container
+                    style={{
+                        borderTop: "1px solid rgba(255,255,255,.5)",
+                        padding: 0,
+                    }}
                 >
-                    <Typography component="h2" className={classes.copyright}>
+                    <Typography component="h3" className={classes.copyright}>
                         2021 © Movie Star
                     </Typography>
-                </Grid>
+                </Container>
             </Container>
         </Container>
     );

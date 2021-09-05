@@ -2,6 +2,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./Views/Home/";
 import Detail from "./Views/Detail/";
 import User from "./Views/User/";
+import Cinema from "./Components/Cinema";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUser } from "./Store/actions/auth";
@@ -24,11 +25,8 @@ const App = () => {
                 <Layout>
                     <Switch>
                         <Route path="/" exact component={Home} />
-                        <AuthRoute
-                            path="/detail/:id"
-                            Component={Detail}
-                            redirectPath="/"
-                        />
+                        <Route path="/detail/:id" component={Detail} />
+                        <Route path="/cinema" component={Cinema} />
                         <AuthRoute
                             path="/user"
                             Component={User}

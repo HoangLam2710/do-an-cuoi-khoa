@@ -12,6 +12,9 @@ const useStyle = makeStyles((theme) => {
             color: theme.palette.primary.main,
             fontSize: 11,
             marginBottom: theme.spacing(2),
+            [theme.breakpoints.down("xs")]: {
+                display: "none",
+            },
         },
         contentFooter: {
             display: "block",
@@ -24,8 +27,19 @@ const useStyle = makeStyles((theme) => {
                 color: "white",
             },
         },
+        contentFooterMobile: {
+            [theme.breakpoints.down("xs")]: {
+                justifyContent: "center",
+                "& $contentFooter": {
+                    padding: "0 10px",
+                },
+            },
+        },
         gridIconConnect: {
             width: "17%",
+            [theme.breakpoints.down("xs")]: {
+                display: "none",
+            },
         },
         iconConnect: {
             backgroundColor: "white",
@@ -39,11 +53,17 @@ const useStyle = makeStyles((theme) => {
             height: 30,
             width: "auto",
             margin: 5,
+            [theme.breakpoints.down("xs")]: {
+                margin: "10px 10px 20px",
+            },
         },
         copyright: {
             paddingTop: theme.spacing(2),
             color: "white",
             fontSize: 13,
+            [theme.breakpoints.down("xs")]: {
+                textAlign: "center",
+            },
         },
     };
 });

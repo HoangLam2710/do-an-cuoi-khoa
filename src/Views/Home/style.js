@@ -17,16 +17,23 @@ const useStyle = makeStyles((theme) => {
         },
         bannerHome: {
             position: "relative",
+            cursor: "pointer",
             "&:hover": {
                 "& $showHover": {
                     visibility: "visible",
                     opacity: 1,
                 },
             },
+            [theme.breakpoints.down("xs")]: {
+                display: "none !important",
+            },
         },
         bannerImg: {
             width: "100%",
-            height: "600px",
+            height: 600,
+            [theme.breakpoints.down("sm")]: {
+                height: 400,
+            },
         },
         backgroundLinear: {
             position: "absolute",
@@ -55,9 +62,14 @@ const useStyle = makeStyles((theme) => {
         },
         // end carousel
         // start list film
+        listMovieWrap: {
+            paddingTop: "6rem",
+            [theme.breakpoints.down("xs")]: {
+                padding: "4rem 16px",
+            },
+        },
         listMovie: {
             position: "relative",
-            overflow: "hidden",
             borderRadius: 5,
             height: 320,
             cursor: "pointer",
@@ -69,11 +81,17 @@ const useStyle = makeStyles((theme) => {
                     },
                 },
             },
+            [theme.breakpoints.down("xs")]: {
+                height: 450,
+            },
         },
         imgMovie: {
             width: "100%",
             height: 320,
             borderRadius: 5,
+            [theme.breakpoints.down("xs")]: {
+                height: 450,
+            },
         },
         movieWrap: {
             position: "absolute",
@@ -85,6 +103,7 @@ const useStyle = makeStyles((theme) => {
             transition: "all .5s",
             display: "flex",
             alignItems: "center",
+            overflow: "hidden",
             "&::after": {
                 content: `''`,
                 display: "block",
@@ -114,6 +133,15 @@ const useStyle = makeStyles((theme) => {
             margin: "0 auto",
             transition: "all .5s",
         },
+        hotLabel: {
+            position: "absolute",
+            top: -13,
+            left: -10,
+            width: "70%",
+            [theme.breakpoints.down("xs")]: {
+                top: -20,
+            },
+        },
         movieTitle: {
             textAlign: "center",
             fontSize: "1rem",
@@ -121,28 +149,157 @@ const useStyle = makeStyles((theme) => {
             margin: "10px auto",
             textOverflow: "ellipsis",
             overflow: "hidden",
-            // display: "-webkit-box",
-            // height: 42,
-            // maxHeight: 42,
-            // "-webkitBoxOrient": "vertical",
-            // "-webkitLineClamp": 2,
         },
         pagination: {
             "& > *": {
                 marginTop: theme.spacing(5),
                 justifyContent: "center",
+                "& .Mui-selected": {
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.primary.contrastText,
+                },
             },
         },
-        // cinema
-        cinema: {
-            flexGrow: 1,
-            backgroundColor: theme.palette.background.paper,
+        // end list film
+        // start cinema
+        cinemaList: {
+            "& .ant-tabs-content": {
+                "& .ant-tabs-tabpane": {
+                    paddingLeft: "0 !important",
+                },
+            },
+            [theme.breakpoints.down("xs")]: {
+                display: "none",
+            },
+        },
+        // css phần các thương hiệu cinema
+        brandCinema: {
+            border: "1px solid #f0f0f0",
+            borderRadius: 5,
+            "& .ant-tabs-nav": {
+                width: 92,
+                "& .ant-tabs-tab": {
+                    padding: 0,
+                    background: "transparent",
+                    border: "none",
+                    display: "block",
+                    width: "100%",
+                    "& img": {
+                        padding: 10,
+                        width: 70,
+                        borderBottom: "1px solid #f0f0f0",
+                        opacity: ".5",
+                        transition: "all .5s",
+                        "&:hover": {
+                            opacity: 1,
+                        },
+                    },
+                },
+                "& .ant-tabs-tab-active": {
+                    "& img": {
+                        opacity: "1 !important",
+                    },
+                },
+            },
+        },
+        locationCinema: {
+            "& .ant-tabs-nav": {
+                width: "30% !important",
+                "& .ant-tabs-tab-btn": {
+                    width: "100%",
+                },
+            },
+            // css cho các lịch chiếu
+            "& .ant-tabs-content-holder": {
+                width: "calc(100% - 92px - 30%)",
+                paddingLeft: 20,
+                "& .ant-tabs-tabpane": {
+                    "& img": {
+                        width: 80,
+                        height: 120,
+                        borderRadius: 5,
+                    },
+                },
+            },
+        },
+        // css phần cụm rạp
+        selectLocationCinema: {
             display: "flex",
-            height: 224,
+            margin: "5px 20px 0",
+            paddingBottom: 5,
+            borderBottom: "1px solid #f0f0f0",
+            opacity: "1",
+            transition: "all .5s",
+            "& img": {
+                padding: "0px !important",
+                width: "50px !important",
+                height: 50,
+                border: "none !important",
+                alignSelf: "center",
+            },
+            "&:hover": {
+                opacity: 1,
+            },
         },
-        tabs: {
-            borderRight: `1px solid ${theme.palette.divider}`,
+        // css cho phần nội dung trong cụm rạp
+        contentLocationCinema: {
+            paddingLeft: 10,
+            fontSize: 14,
+            textAlign: "left",
+            overflow: "hidden",
+            "& .MuiTypography-body2": {
+                display: "inline-block",
+            },
+            "& .MuiTypography-caption": {
+                display: "block",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "100%",
+            },
         },
+        // end cinema
+        // start app
+        app: {
+            backgroundImage: "url('../assets/img/backapp.jpeg')",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            padding: "120px 0 80px",
+            color: theme.palette.primary.contrastText,
+        },
+        appLeft: {
+            alignSelf: "center",
+            [theme.breakpoints.down("xs")]: {
+                textAlign: "center",
+                marginBottom: theme.spacing(3),
+            },
+        },
+        appRight: {
+            position: "relative",
+            padding: 0,
+        },
+        phoneImg: {
+            padding: "0 28%",
+            width: "100%",
+        },
+        sliderScreen: {
+            position: "absolute",
+            padding: "1.5% 29.3% 0 29.3%",
+            top: 0,
+            left: 0,
+            width: "100%",
+            "& .slick-list": {
+                borderRadius: 20,
+                "& img": {
+                    width: "100%",
+                },
+            },
+            "& .slick-arrow": {
+                display: "none !important",
+            },
+        },
+        // end app
     };
 });
 

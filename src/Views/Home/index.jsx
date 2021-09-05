@@ -1,21 +1,24 @@
-import React from "react";
-import { Container, Typography, Grid, Box } from "@material-ui/core";
-import Pagination from "@material-ui/lab/Pagination";
-//import { NavLink } from "react-router-dom";
-import useStyle from "./style";
-import { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Container, Typography, Grid, Box, Button } from "@material-ui/core";
+import { Rating } from "@material-ui/lab";
+import Pagination from "@material-ui/lab/Pagination";
+import { PlayArrow } from "@material-ui/icons";
+
 import { fetchBanner, fetchMovies } from "../../Store/actions/movie";
-import { useCallback } from "react";
+import { fetchCinemas, fetchCumRap } from "../../Store/actions/cinema";
 import { createAction } from "../../Store/actions";
 import { actionTypes } from "../../Store/actions/types";
+import ShowTime from "../../Components/ShowTime";
+
 import Slider from "react-slick";
+import { Tabs } from "antd";
+
+import useStyle from "./style";
+import classNames from "classnames";
+
 import "../../../node_modules/slick-carousel/slick/slick.css";
 import "../../../node_modules/slick-carousel/slick/slick-theme.css";
-import { PlayArrow } from "@material-ui/icons";
-import classNames from "classnames";
-import { Rating } from "@material-ui/lab";
-import { Tabs } from "antd";
 import "../../../node_modules/antd/dist/antd.css";
 
 function NextArrow(props) {
@@ -48,9 +51,18 @@ const Home = (props) => {
     const classes = useStyle();
     const dispatch = useDispatch();
 
+    // setting slider homepage
     const settings = {
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
+    };
+
+    // setting slider mobile app
+    const settings_mobile = {
+        infinite: true,
+        autoplay: true,
+        speed: 1000,
+        autoplaySpeed: 3000,
     };
 
     const page = useSelector((state) => {
@@ -65,20 +77,31 @@ const Home = (props) => {
         return state.movie.banner;
     });
 
+    const cinemaList = useSelector((state) => {
+        return state.cinema.cinemaList;
+    });
+
+    const listCumRap = useSelector((state) => {
+        return state.cinema.listCumRap;
+    });
+
     useEffect(() => {
         dispatch(fetchMovies(page));
         dispatch(fetchBanner);
+        dispatch(fetchCinemas);
+        dispatch(fetchCumRap("BHDStar"));
     }, [dispatch, page]);
 
     const hanldChangePage = useCallback(
         (event, value) => {
             dispatch(createAction(actionTypes.SET_PAGE, value));
             dispatch(fetchMovies(value));
-            let listFilm = document
-                .getElementById("listFilm")
+            let slider = document
+                .getElementById("slider")
                 .getBoundingClientRect();
+            console.log(slider.y);
             window.scroll({
-                top: listFilm.y + window.scrollY - 100,
+                top: slider.y + window.scrollY,
                 behavior: "smooth",
             });
         },
@@ -88,12 +111,19 @@ const Home = (props) => {
     const directDetail = useCallback(
         (maPhim) => {
             return () => {
-                localStorage.getItem("taiKhoan")
-                    ? props.history.push(`/detail/${maPhim}/`)
-                    : dispatch(createAction(actionTypes.SET_LOGIN, true));
+                props.history.push(`/detail/${maPhim}/`);
             };
         },
-        [dispatch, props.history]
+        [props.history]
+    );
+
+    const selectCinema = useCallback(
+        (maHeThongRap) => {
+            return () => {
+                dispatch(fetchCumRap(maHeThongRap));
+            };
+        },
+        [dispatch]
     );
 
     return (
@@ -125,11 +155,12 @@ const Home = (props) => {
                 })}
             </Slider>
 
+            <Container id="slider"></Container>
             {/* list film */}
             <Container
-                id="listFilm"
+                id="listfilm"
                 maxWidth="md"
-                style={{ margin: "50px auto" }}
+                className={classes.listMovieWrap}
             >
                 <Grid container spacing={3}>
                     {movieList.items?.map((movie) => {
@@ -138,8 +169,8 @@ const Home = (props) => {
                                 key={movie.maPhim}
                                 item
                                 xs={12}
-                                sm={6}
-                                md={4}
+                                sm={4}
+                                md={3}
                                 lg={3}
                             >
                                 <Box className={classes.listMovie}>
@@ -149,18 +180,27 @@ const Home = (props) => {
                                         alt={movie.tenPhim}
                                     />
 
-                                    <Box className={classes.movieWrap}>
+                                    <Box
+                                        className={classes.movieWrap}
+                                        onClick={directDetail(movie.maPhim)}
+                                    >
                                         <Box className={classes.movieReadmore}>
                                             <PlayArrow
                                                 className={
                                                     classes.buttonReadmore
                                                 }
-                                                onClick={directDetail(
-                                                    movie.maPhim
-                                                )}
                                             ></PlayArrow>
                                         </Box>
                                     </Box>
+                                    {movie.hot && (
+                                        <Box>
+                                            <img
+                                                src="../assets/img/hot.png"
+                                                alt="hot"
+                                                className={classes.hotLabel}
+                                            />
+                                        </Box>
+                                    )}
                                 </Box>
                                 <Box style={{ textAlign: "center" }}>
                                     <Typography className={classes.movieTitle}>
@@ -192,19 +232,226 @@ const Home = (props) => {
             <Container
                 id="cinema"
                 maxWidth="md"
-                style={{ margin: "50px auto" }}
+                style={{ padding: "6rem 0" }}
+                className={classes.cinemaList}
             >
-                <Tabs tabPosition="left">
-                    <TabPane tab="Tab 1" key="1">
-                        Content of Tab 1
-                    </TabPane>
-                    <TabPane tab="Tab 2" key="2">
-                        Content of Tab 2
-                    </TabPane>
-                    <TabPane tab="Tab 3" key="3">
-                        Content of Tab 3
-                    </TabPane>
+                <Tabs
+                    tabPosition="left"
+                    type="card"
+                    className={classes.brandCinema}
+                >
+                    {cinemaList &&
+                        cinemaList.map((cinema) => {
+                            return (
+                                <TabPane
+                                    tab={
+                                        <img
+                                            src={cinema.logo}
+                                            alt={cinema.maHeThongRap}
+                                            onClick={selectCinema(
+                                                cinema.maHeThongRap
+                                            )}
+                                        />
+                                    }
+                                    key={cinema.maHeThongRap}
+                                >
+                                    <Tabs
+                                        tabPosition="left"
+                                        type="card"
+                                        className={classes.locationCinema}
+                                        style={{ height: 426 }}
+                                    >
+                                        {listCumRap &&
+                                            listCumRap[0]?.lstCumRap.map(
+                                                (cumrap) => {
+                                                    return (
+                                                        <TabPane
+                                                            tab={
+                                                                <Box
+                                                                    className={
+                                                                        classes.selectLocationCinema
+                                                                    }
+                                                                >
+                                                                    <img
+                                                                        src={
+                                                                            cumrap.hinhAnh
+                                                                        }
+                                                                        alt={
+                                                                            cumrap.tenCumRap
+                                                                        }
+                                                                    />
+                                                                    <Box
+                                                                        className={
+                                                                            classes.contentLocationCinema
+                                                                        }
+                                                                    >
+                                                                        <Typography>
+                                                                            <Typography
+                                                                                variant="body2"
+                                                                                color="primary"
+                                                                            >
+                                                                                {
+                                                                                    cumrap.tenCumRap.split(
+                                                                                        "-"
+                                                                                    )[0]
+                                                                                }
+                                                                            </Typography>
+                                                                            <Typography
+                                                                                variant="body2"
+                                                                                color="textSecondary"
+                                                                            >
+                                                                                &nbsp;-{" "}
+                                                                                {
+                                                                                    cumrap.tenCumRap.split(
+                                                                                        "-"
+                                                                                    )[1]
+                                                                                }
+                                                                            </Typography>
+                                                                        </Typography>
+                                                                        <Typography
+                                                                            variant="caption"
+                                                                            color="textSecondary"
+                                                                        >
+                                                                            {
+                                                                                cumrap.diaChi
+                                                                            }
+                                                                        </Typography>
+                                                                        <Typography
+                                                                            variant="caption"
+                                                                            color="primary"
+                                                                        >
+                                                                            [chi
+                                                                            tiết]
+                                                                        </Typography>
+                                                                    </Box>
+                                                                </Box>
+                                                            }
+                                                            key={
+                                                                cumrap.maCumRap
+                                                            }
+                                                            style={{
+                                                                height: 426,
+                                                                overflowY:
+                                                                    "scroll",
+                                                            }}
+                                                        >
+                                                            {cumrap.danhSachPhim.map(
+                                                                (phim) => {
+                                                                    return (
+                                                                        <ShowTime
+                                                                            key={
+                                                                                phim.maPhim
+                                                                            }
+                                                                            phim={
+                                                                                phim
+                                                                            }
+                                                                        />
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </TabPane>
+                                                    );
+                                                }
+                                            )}
+                                    </Tabs>
+                                </TabPane>
+                            );
+                        })}
                 </Tabs>
+            </Container>
+
+            {/* app */}
+            <Container id="app" maxWidth="false" className={classes.app}>
+                <Container maxWidth="md">
+                    <Grid container spacing={3}>
+                        <Grid xs={12} sm={6} className={classes.appLeft}>
+                            <Typography
+                                style={{
+                                    fontSize: 32,
+                                    fontWeight: 700,
+                                    lineHeight: "46px",
+                                }}
+                                gutterBottom
+                            >
+                                Ứng dụng tiện lợi dành cho người yêu điện ảnh
+                            </Typography>
+                            <Typography
+                                style={{
+                                    fontSize: 16,
+                                    lineHeight: "23px",
+                                    margin: "30px 0",
+                                }}
+                            >
+                                Không chỉ đặt vé, bạn còn có thể bình luận phim,
+                                chấm điểm rạp và đổi quà hấp dẫn.
+                            </Typography>
+                            <Button variant="contained" color="primary">
+                                <a
+                                    href="https://www.apple.com/app-store/"
+                                    style={{
+                                        color: "white",
+                                    }}
+                                >
+                                    App miễn phí - Tải về ngay!
+                                </a>
+                            </Button>
+                            <Typography
+                                style={{
+                                    marginTop: 20,
+                                    fontSize: 14,
+                                    lineHeight: "20px",
+                                }}
+                            >
+                                MStar có hai phiên bản{" "}
+                                <a
+                                    href="https://www.apple.com/app-store/"
+                                    style={{
+                                        color: "white",
+                                    }}
+                                >
+                                    iOS
+                                </a>{" "}
+                                '&'{" "}
+                                <a
+                                    href="https://play.google.com/store"
+                                    style={{
+                                        color: "white",
+                                    }}
+                                >
+                                    Android
+                                </a>
+                            </Typography>
+                        </Grid>
+                        <Grid xs={12} sm={6} className={classes.appRight}>
+                            <img
+                                className={classes.phoneImg}
+                                src="../assets/img/mobile.png"
+                                alt="phone"
+                            />
+                            <Slider
+                                {...settings_mobile}
+                                className={classes.sliderScreen}
+                            >
+                                <img
+                                    src="../assets/img/slide1.jpeg"
+                                    alt="slider"
+                                />
+                                <img
+                                    src="../assets/img/slide2.jpeg"
+                                    alt="slider"
+                                />
+                                <img
+                                    src="../assets/img/slide3.jpeg"
+                                    alt="slider"
+                                />
+                                <img
+                                    src="../assets/img/slide4.jpeg"
+                                    alt="slider"
+                                />
+                            </Slider>
+                        </Grid>
+                    </Grid>
+                </Container>
             </Container>
         </Container>
     );
