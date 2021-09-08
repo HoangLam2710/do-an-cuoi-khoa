@@ -1,16 +1,16 @@
 @import "node_modules/react-modal-video/scss/modal-video.scss";
 
 .ant-tabs-tab {
-  opacity: 0.7 !important;
-  &:hover {
-    color: black;
-  }
+    opacity: 0.7 !important;
+    &:hover {
+        color: black;
+    }
 }
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: black !important;
+    color: black !important;
 }
 
 .ant-tabs-tab.ant-tabs-tab-active {
-  opacity: 1 !important;
+    opacity: 1 !important;
 }

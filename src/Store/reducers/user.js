@@ -17,6 +17,9 @@ const reducer = (state = initialState, { type, payload }) => {
         case actionTypes.SET_USER:
             state.user = payload;
             return { ...state };
+        case actionTypes.REMOVE_USER:
+            state.user = null;
+            return { ...state };
         default:
             return state;
     }
