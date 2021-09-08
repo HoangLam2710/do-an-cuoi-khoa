@@ -2,17 +2,48 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyle = makeStyles((theme) => {
   return {
+    root: {
+      width: "100%",
+      paddingTop: "50px",
+    },
+    heading: {
+      fontSize: theme.typography.pxToRem(15),
+      fontWeight: theme.typography.fontWeightRegular,
+    },
     detailItem: {
       marginBottom: "20px",
-      fontSize: "17px",
+      fontSize: "16px",
+      lineHeight: "22px",
       color: "#fff",
+      textAlign: "justify",
+      textJustify: "inter-word",
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "14px",
+      },
     },
-    movieName: {
-      fontSize: "28px",
-      lineHeight: "28px",
+    glassBackground: {
+      backgroundSize: "100%",
+      backgroundRepeat: "no-repeat",
+      minHeight: "300px",
+      backgroundPosition: "center",
+      [theme.breakpoints.down("sm")]: {
+        backgroundPosition: "top",
+        backgroundSize: "cover",
+      },
+      [theme.breakpoints.down("xs")]: {
+        backgroundPosition: "top",
+        backgroundSize: "cover",
+      },
     },
     tabCinemaContainer: {
       height: "705px",
+      [theme.breakpoints.down("sm")]: {
+        display: "none",
+      },
+    },
+    scroll: {
+      height: "705px",
+      overflowY: "auto",
     },
     cinemaClusterInfoWrapper: {
       paddingLeft: "10px",
@@ -21,6 +52,9 @@ const useStyle = makeStyles((theme) => {
       fontSize: "16px",
       lineHeight: "1.4",
       color: "black",
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "14px",
+      },
     },
     cinemaClusterAddress: {
       fontSize: "14px",
@@ -43,8 +77,12 @@ const useStyle = makeStyles((theme) => {
     cinemaSys: {
       marginLeft: "20px",
       fontSize: "18px",
+      display: "inline-block",
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "16px",
+      },
     },
-    listMovie: {
+    movie: {
       position: "relative",
       overflow: "hidden",
       borderRadius: 5,
@@ -54,6 +92,31 @@ const useStyle = makeStyles((theme) => {
         "& $movieWrap": {
           opacity: 0.8,
         },
+      },
+    },
+    movieName: {
+      fontSize: "28px",
+      fontWeight: "600",
+      lineHeight: "28px",
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "22px",
+      },
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "22px",
+      },
+      [theme.breakpoints.down("md")]: {
+        fontSize: "22px",
+      },
+    },
+    movieImg: {
+      [theme.breakpoints.down("xs")]: {
+        width: "100%",
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
+      },
+      [theme.breakpoints.down("md")]: {
+        width: "100%",
       },
     },
     movieWrap: {
@@ -83,11 +146,24 @@ const useStyle = makeStyles((theme) => {
       transition: "all .5s",
     },
     customCard: {
-      minHeight: "400px",
+      background:
+        "linear-gradient(to top, rgb(10, 32, 41), transparent 100%) !important",
+      borderRadius: "0px !important",
+      [theme.breakpoints.down("xs")]: {
+        background:
+          "linear-gradient(to top, rgb(10, 32, 41), transparent 100%) !important",
+      },
+      [theme.breakpoints.down("sm")]: {
+        background:
+          "linear-gradient(to top, rgb(10, 32, 41), transparent 100%) !important",
+      },
     },
     timeShowing: {
       display: "grid",
       gridTemplateColumns: "repeat(4, 1fr)",
+      [theme.breakpoints.down("xs")]: {
+        gridTemplateColumns: "repeat(3, 1fr)",
+      },
     },
     timeShowingItem: {
       fontSize: "20px",
@@ -95,7 +171,27 @@ const useStyle = makeStyles((theme) => {
       fontWeight: "500",
       transition: "all 0.5s ease-in-out",
       "&:hover": {
-        opacity: 0.5,
+        opacity: "0.5",
+      },
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "14px",
+      },
+    },
+    accordionSummary: {
+      display: "flex",
+      alignItems: "center",
+    },
+    accordionContainer: {
+      [theme.breakpoints.up("md")]: {
+        display: "none",
+      },
+    },
+    removePadding: {
+      [theme.breakpoints.down("sm")]: {
+        padding: "20px 0 !important",
+      },
+      [theme.breakpoints.up("sm")]: {
+        padding: "30px !important",
       },
     },
   };
