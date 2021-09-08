@@ -50,13 +50,20 @@ const Header = () => {
         dispatch(createAction(actionTypes.SET_LOGIN, false));
     }, [dispatch]);
 
-    const hideCinema = (open) => {
+    const hideCinema = useCallback((open) => {
         return () => {
             let active = document.getElementById("sideMenu");
             open
                 ? active.classList.add("active")
                 : active.classList.remove("active");
         };
+    }, []);
+
+    const handleLogout = () => {
+        window.location.reload();
+        localStorage.removeItem("taiKhoan");
+        localStorage.removeItem("t");
+        dispatch(createAction(actionTypes.REMOVE_USER));
     };
 
     return (
@@ -82,9 +89,25 @@ const Header = () => {
 
                 <Container className={classes.signin}>
                     {user ? (
-                        <NavLink to="/user" className={classes.navLink}>
-                            Hi, {user.hoTen?.toUpperCase()}
-                        </NavLink>
+                        <>
+                            <NavLink to="/user" className={classes.navLink}>
+                                Hi, {user.hoTen?.toUpperCase()}
+                            </NavLink>
+                            <Typography
+                                style={{
+                                    margin: "0 -20px",
+                                    color: "#9b9b9b",
+                                }}
+                            >
+                                |
+                            </Typography>
+                            <Typography
+                                onClick={handleLogout}
+                                className={classes.navLink}
+                            >
+                                Đăng xuất
+                            </Typography>
+                        </>
                     ) : (
                         <>
                             <Typography

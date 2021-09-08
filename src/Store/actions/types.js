@@ -9,4 +9,5 @@ export const actionTypes = {
     SET_SHOWTIMES: "SET_SHOWTIMES",
     SET_CINEMAS: "SET_CINEMAS",
     SET_CUMRAP: "SET_CUMRAP",
+    REMOVE_USER: "REMOVE_USER",
 };
