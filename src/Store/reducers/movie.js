@@ -25,6 +25,7 @@ const reducer = (state = initialState, { type, payload }) => {
     case actionTypes.SET_SHOWTIMES:
       state.showtimes = payload;
       return { ...state };
+
     default:
       return state;
   }
