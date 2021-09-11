@@ -16,6 +16,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import useStyle from "./style";
 import "./index.scss";
+import { NavLink } from "react-router-dom";
 
 const { TabPane } = Tabs;
 
@@ -220,12 +221,13 @@ const Detail = (props) => {
                         <div className={classes.timeShowing}>
                           {item.lichChieuPhim?.slice(0, 10).map((lc, index) => {
                             return (
-                              <p
+                              <NavLink
+                                to={`/ticketroom/${lc.maLichChieu}`}
                                 key={index}
                                 className={classes.timeShowingItem}
                               >
                                 {moment(lc.ngayChieuGioChieu).format("hh:mm A")}
-                              </p>
+                              </NavLink>
                             );
                           })}
                         </div>
@@ -289,14 +291,15 @@ const Detail = (props) => {
                               ?.slice(0, 10)
                               .map((lc, index) => {
                                 return (
-                                  <p
+                                  <NavLink
                                     key={index}
+                                    to={`/ticketroom/${lc.maLichChieu}`}
                                     className={classes.timeShowingItem}
                                   >
                                     {moment(lc.ngayChieuGioChieu).format(
                                       "hh:mm A"
                                     )}
-                                  </p>
+                                  </NavLink>
                                 );
                               })}
                           </div>
