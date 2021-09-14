@@ -19,6 +19,7 @@ const useStyle = makeStyles((theme) => {
       boxShadow: "rgba(252, 252, 252, 0.486) 0px 8px 24px",
       borderRadius: "4px",
       minHeight: "600px",
+      background: "rgba(0,0,0,0.5)",
     },
     bookingInfoItemWrapper: {
       display: "flex",
@@ -33,6 +34,9 @@ const useStyle = makeStyles((theme) => {
       fontWeight: "500",
       display: "flex",
       flexWrap: "wrap",
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "14px",
+      },
     },
     bookingSeatList: {
       alignItems: "flex-start !important",
@@ -51,23 +55,27 @@ const useStyle = makeStyles((theme) => {
       borderBottom: "1px dotted white",
     },
     normalSeat: {
-      width: "35px",
-      height: "35px",
-      background: "#cccccc",
+      width: "40px",
+      height: "40px",
+      background: "#a2a2a2",
       margin: "5px",
       cursor: "pointer",
       borderRadius: "8px",
+      [theme.breakpoints.down("xs")]: {
+        width: "35px",
+        height: "35px",
+      },
     },
     normalSeatNote: {
-      width: "25px",
-      height: "25px",
-      background: "#cccccc",
+      width: "30px",
+      height: "30px",
+      background: "#a2a2a2",
       margin: "5px",
       cursor: "pointer",
       borderRadius: "8px",
     },
     alreadyBookedSeat: {
-      background: "rgb(232, 76,76)",
+      background: "rgb(240, 76,76) !important",
       cursor: "no-drop",
     },
     bookingSeat: {
@@ -75,6 +83,10 @@ const useStyle = makeStyles((theme) => {
     },
     vipSeat: {
       background: "orangered",
+    },
+    otherBookingSeat: {
+      background: "navy !important",
+      cursor: "no-drop",
     },
     seatsContainer: {
       textAlign: "center",
@@ -84,11 +96,40 @@ const useStyle = makeStyles((theme) => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      [theme.breakpoints.down("xs")]: {
+        display: "grid",
+        gridTemplateColumns: "repeat(2, 1fr)",
+        gridGap: "10px 0px",
+      },
     },
     seatNoteItem: {
       display: "flex",
       alignItems: "center",
-      marginRight: "15px",
+      paddingRight: "15px",
+      fontSize: "16px",
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "14px",
+      },
+    },
+
+    paper: {
+      position: "absolute",
+      width: 400,
+      backgroundColor: theme.palette.background.paper,
+      border: "2px solid #000",
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+      textAlign: "center",
+    },
+
+    break: {
+      display: "block",
+      [theme.breakpoints.down("xs")]: {
+        display: "none",
+      },
+      [theme.breakpoints.down("md")]: {
+        display: "none",
+      },
     },
   };
 });
