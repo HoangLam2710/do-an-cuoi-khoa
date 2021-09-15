@@ -3,6 +3,9 @@ import { actionTypes } from "../actions/types";
 const initialState = {
   movieRoomData: { thongTinPhim: {} },
   bookingSeat: [],
+  otherBookingSeat: [],
+  bookTicketStatus: "",
+  loading: false,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -22,6 +25,25 @@ const reducer = (state = initialState, { type, payload }) => {
         cloneBookingSeat.push(payload);
       }
       return { ...state, bookingSeat: cloneBookingSeat };
+
+    case actionTypes.BOOKING_TICKET:
+      state.bookTicketStatus = payload;
+      state.bookingSeat = [];
+      return { ...state };
+    case actionTypes.DISPLAY_LOADING:
+      state.loading = true;
+      return { ...state };
+    case actionTypes.HIDDEN_LOADING:
+      state.loading = false;
+      return {
+        ...state,
+      };
+    case actionTypes.OTHER_BOOKING_SEAT:
+      state.otherBookingSeat = payload;
+      return { ...state };
+    case "REMOVE_BOOK_STATUS":
+      state.bookTicketStatus = "";
+      return { ...state };
     default:
       return state;
   }

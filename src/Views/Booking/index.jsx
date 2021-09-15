@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomCard } from "@tsamantanis/react-glassmorphism";
@@ -8,8 +8,12 @@ import useStyle from "./style";
 import {
   getMovieRoomData,
   bookingSeatAction,
+  bookingTicket,
 } from "../../Store/actions/booking";
 import classNames from "classnames";
+import Modal from "@material-ui/core/Modal";
+import ClearIcon from "@material-ui/icons/Clear";
+import Loading from "../../Components/Loading/Loading";
 
 const Booking = (props) => {
   const classes = useStyle();
@@ -17,8 +21,24 @@ const Booking = (props) => {
 
   useEffect(() => {
     dispatch(getMovieRoomData(props.match.params.id));
+
+    // connection.on("loadDanhSachGheDaDat", (dsGheKhachDat) => {
+    //   // dsGheKhachDat = dsGheKhachDat.filter(
+    //   //   (item) => item.taiKhoan !== userInfoData.taiKhoan
+    //   // );
+
+    //   // let otherBookedSeat = dsGheKhachDat.reduce((res, item, index) => {
+    //   //   let arrSeat = JSON.parse(item.danhSachGhe);
+    //   console.log("dansachghedadat", dsGheKhachDat);
+    //   //   return [...res, ...arrSeat];
+    //   // }, []);
+    //   // dispatch(otherBookingSeatAction(otherBookedSeat));
+    // });
+
+    // connection.on("loadDanhSachGheDaDat", (dsGheKhachDat) => {
+    //   console.log("dsGheKhachDat", dsGheKhachDat);
+    // });
   }, [dispatch, props.match.params.id]);
-  console.log(props.match.params.id);
 
   const movieRoomData = useSelector((state) => {
     return state.booking.movieRoomData;
@@ -28,8 +48,20 @@ const Booking = (props) => {
     return state.booking.bookingSeat;
   });
 
+  const otherBookingSeatData = useSelector((state) => {
+    return state.booking.otherBookingSeat;
+  });
+
   const userInfoData = useSelector((state) => {
-    return state.user.user.content;
+    return state.user?.user;
+  });
+
+  const isLoading = useSelector((state) => {
+    return state.booking.loading;
+  });
+
+  const bookTicketStatus = useSelector((state) => {
+    return state.booking?.bookTicketStatus;
   });
 
   const { thongTinPhim, danhSachGhe } = movieRoomData;
@@ -37,7 +69,7 @@ const Booking = (props) => {
     thongTinPhim;
 
   const handleBookingSeat = (seat) => {
-    dispatch(bookingSeatAction(seat));
+    dispatch(bookingSeatAction(seat, props.match.params.id));
   };
 
   const numberWithCommas = (x) => {
@@ -55,30 +87,98 @@ const Booking = (props) => {
       );
       const bookingSeatClass =
         bookingSeatIndex !== -1 ? classes.bookingSeat : "";
+
+      let otherBookingSeatIndex = otherBookingSeatData.findIndex(
+        (item) => item.maGhe === seat.maGhe
+      );
+
+      const otherBookingSeatClass =
+        otherBookingSeatIndex !== -1 ? classes.otherBookingSeat : "";
       return (
         <Fragment key={index}>
           <button
             key={index}
             onClick={() => handleBookingSeat(seat)}
+            disabled={seat.daDat || otherBookingSeatClass !== ""}
             className={classNames(
               classes.normalSeat,
               vipSeatClass,
               alreadyBookedSeatClass,
-              bookingSeatClass
+              bookingSeatClass,
+              otherBookingSeatClass
             )}
-          ></button>
-          {(index + 1) % 16 === 0 ? <br /> : ""}
+          >
+            {seat.daDat ? (
+              <ClearIcon style={{ fontSize: "16px", fontWeight: "700" }} />
+            ) : otherBookingSeatClass !== "" ? (
+              "~"
+            ) : (
+              seat.tenGhe
+            )}
+          </button>
+          {(index + 1) % 16 === 0 ? <br className={classes.break} /> : ""}
         </Fragment>
       );
     });
   };
 
   const handleBookTicket = (ticketList) => {
-    console.log(ticketList);
+    dispatch(bookingTicket(ticketList));
   };
+
+  function getModalStyle() {
+    const top = 50;
+    const left = 50;
+
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+  }
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const status = useRef(bookTicketStatus);
+
+  useEffect(() => {
+    if (bookTicketStatus !== "") {
+      status.current = bookTicketStatus;
+      handleOpen();
+    }
+    dispatch({
+      type: "REMOVE_BOOK_STATUS",
+    });
+  }, [bookTicketStatus, dispatch, status]);
+
+  const [modalStyle] = React.useState(getModalStyle);
+
+  const body = (
+    <div style={modalStyle} className={classes.paper}>
+      <h2 id="simple-modal-title">{status.current}</h2>
+    </div>
+  );
 
   return (
     <>
+      {" "}
+      {isLoading ? <Loading /> : null}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {body}
+      </Modal>
       <div
         style={{
           backgroundImage: `url(${hinhAnh})`,
@@ -103,7 +203,7 @@ const Booking = (props) => {
             }}
           >
             <Grid container spacing={8}>
-              <Grid item xs={12} sm={6} md={4} lg={8}>
+              <Grid item xs={12} sm={12} md={12} lg={8}>
                 <Box>
                   <div>
                     <img
@@ -119,7 +219,9 @@ const Booking = (props) => {
                 <div className={classes.seatNote}>
                   <div className={classes.seatNoteItem}>
                     <button className={classes.normalSeatNote}></button>{" "}
-                    <span>Ghế thường</span>
+                    <span className={classes.normalSeatNoteTxt}>
+                      Ghế thường
+                    </span>
                   </div>
                   <div className={classes.seatNoteItem}>
                     <button
@@ -146,9 +248,20 @@ const Booking = (props) => {
                         classes.alreadyBookedSeat
                       )}
                     >
-                      X
+                      <ClearIcon style={{ fontSize: "14px" }} />
                     </button>{" "}
                     <span>Ghế đã chọn</span>
+                  </div>
+                  <div className={classes.seatNoteItem}>
+                    <button
+                      className={classNames(
+                        classes.normalSeatNote,
+                        classes.otherBookingSeat
+                      )}
+                    >
+                      ~
+                    </button>{" "}
+                    <span>Ghế đang có người chọn</span>
                   </div>
                 </div>
               </Grid>
@@ -157,7 +270,7 @@ const Booking = (props) => {
                 item
                 xs={12}
                 sm={12}
-                md={8}
+                md={12}
                 lg={4}
                 container
                 className={classes.bookingInfoContainer}
