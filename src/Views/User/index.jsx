@@ -28,7 +28,7 @@ import useStyle from "./style";
 const { TabPane } = Tabs;
 
 const Ticket = (props) => {
-    const { ticket } = props;
+    const { ticket } = props || {};
     const [open, setOpen] = useState(false);
 
     return (
@@ -174,7 +174,7 @@ const User = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {user.thongTinDatVe.map((ticket) => {
+                                        {user.thongTinDatVe?.map((ticket) => {
                                             return (
                                                 <Ticket
                                                     key={ticket.maVe}

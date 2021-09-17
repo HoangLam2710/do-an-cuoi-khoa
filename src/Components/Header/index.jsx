@@ -59,12 +59,12 @@ const Header = () => {
         };
     }, []);
 
-    const handleLogout = () => {
-        window.location.reload();
+    const handleLogout = useCallback(() => {
+        window.location.href = "/";
         localStorage.removeItem("taiKhoan");
         localStorage.removeItem("t");
         dispatch(createAction(actionTypes.REMOVE_USER));
-    };
+    }, [dispatch]);
 
     return (
         <AppBar position="sticky" className={classes.navbarHeader}>
