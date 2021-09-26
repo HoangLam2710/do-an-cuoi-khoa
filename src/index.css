@@ -15,3 +15,7 @@ code {
 html {
     scroll-behavior: smooth;
 }
+
+a {
+    font-family: "Roboto" !important;
+}

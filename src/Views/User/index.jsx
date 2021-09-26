@@ -1,4 +1,6 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import {
     List,
     ListItem,
@@ -16,10 +18,19 @@ import {
     IconButton,
     Collapse,
 } from "@material-ui/core";
-import { Email, PhoneIphone, Person } from "@material-ui/icons";
-import { useSelector } from "react-redux";
 import { Tabs } from "antd";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
+import {
+    Email,
+    PhoneIphone,
+    Person,
+    KeyboardArrowDown,
+    KeyboardArrowUp,
+} from "@material-ui/icons";
+
+import { getUser } from "../../Store/actions/auth";
+import { createAction } from "../../Store/actions";
+import { actionTypes } from "../../Store/actions/types";
+
 import * as dayjs from "dayjs";
 import numeral from "numeral";
 
@@ -28,6 +39,7 @@ import useStyle from "./style";
 const { TabPane } = Tabs;
 
 const Ticket = (props) => {
+    const classes = useStyle();
     const { ticket } = props || {};
     const [open, setOpen] = useState(false);
 
@@ -38,11 +50,13 @@ const Ticket = (props) => {
                     {ticket.maVe}
                 </TableCell>
                 <TableCell align="right">{ticket.tenPhim}</TableCell>
-                <TableCell align="right">{ticket.thoiLuongPhim} phút</TableCell>
-                <TableCell align="right">
+                <TableCell align="right" className={classes.hiddenMobile}>
+                    {ticket.thoiLuongPhim} phút
+                </TableCell>
+                <TableCell align="right" className={classes.hiddenMobile}>
                     {dayjs(ticket.ngayDat).format("HH:mm DD/MM/YYYY")}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="right" className={classes.hiddenMobile}>
                     {numeral(ticket.giaVe * ticket.danhSachGhe.length).format(
                         "0,0"
                     )}
@@ -110,10 +124,22 @@ const Ticket = (props) => {
 
 const User = () => {
     const classes = useStyle();
+    const dispatch = useDispatch();
 
     const user = useSelector((state) => {
         return state.user.user;
     });
+
+    useEffect(() => {
+        dispatch(createAction(actionTypes.SHOW_LOADING));
+        window.scroll({ top: 0, behavior: "smooth" });
+
+        dispatch(getUser);
+
+        setTimeout(() => {
+            dispatch(createAction(actionTypes.HIDDEN_LOADING));
+        }, 2000);
+    }, [dispatch]);
 
     return (
         <>
@@ -159,13 +185,22 @@ const User = () => {
                                             <TableCell align="right">
                                                 Tên phim
                                             </TableCell>
-                                            <TableCell align="right">
+                                            <TableCell
+                                                align="right"
+                                                className={classes.hiddenMobile}
+                                            >
                                                 Thời lượng
                                             </TableCell>
-                                            <TableCell align="right">
+                                            <TableCell
+                                                align="right"
+                                                className={classes.hiddenMobile}
+                                            >
                                                 Ngày đặt
                                             </TableCell>
-                                            <TableCell align="right">
+                                            <TableCell
+                                                align="right"
+                                                className={classes.hiddenMobile}
+                                            >
                                                 Giá vé
                                             </TableCell>
                                             <TableCell align="right">

@@ -40,6 +40,7 @@ const Header = () => {
             // set để bật popup
             dispatch(createAction(actionTypes.SET_LOGIN, true));
             // isSignIn để kiểm tra hiện SignIn hay SignUp
+            // isSignIn = true hiện signin
             dispatch(createAction(actionTypes.SET_SIGNIN, isSignIn));
         },
         [dispatch]
@@ -142,6 +143,7 @@ const Header = () => {
                     />
                 </Container>
 
+                {/* header mobile */}
                 <Container
                     id="sideMenu"
                     className={classes.sideMenu}
@@ -154,10 +156,7 @@ const Header = () => {
                                     Hi, {user.hoTen?.toUpperCase()}
                                 </NavLink>
                             ) : (
-                                <Box
-                                    className={classes.titleMenuMobile}
-                                    onClick={() => handleOpen(true)}
-                                >
+                                <Box className={classes.titleMenuMobile}>
                                     <img
                                         src="../assets/img/avatar.png"
                                         alt="login"
@@ -166,6 +165,7 @@ const Header = () => {
                                         variant="subtitle2"
                                         className={classes.navLink}
                                         component="span"
+                                        onClick={() => handleOpen(true)}
                                     >
                                         Đăng nhập
                                     </Typography>
@@ -181,7 +181,10 @@ const Header = () => {
                         <a href="/#listfilm" className={classes.navLinkMobile}>
                             Lịch chiếu
                         </a>
-                        <NavLink to="/cinema" className={classes.navLinkMobile}>
+                        <NavLink
+                            to="/cinema-mobile"
+                            className={classes.navLinkMobile}
+                        >
                             Cụm rạp
                         </NavLink>
                         <a href="/#app" className={classes.navLinkMobile}>

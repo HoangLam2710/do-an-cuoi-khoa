@@ -21,6 +21,9 @@ import { signInUser } from "../../Store/actions/auth";
 import { actionTypes } from "../../Store/actions/types";
 import { createAction } from "../../Store/actions";
 
+import { ToastContainer, toast } from "react-toastify";
+import "../../../node_modules/react-toastify/dist/ReactToastify.css";
+
 const validationSchema = yup.object().shape({
     taiKhoan: yup.string().required("This field is required!"),
     matKhau: yup.string().required("This field is required!"),
@@ -69,7 +72,15 @@ const SignUp = () => {
     }, [formik]);
 
     const goToHome = useCallback(() => {
-        alert("Đăng ký thành công!!!");
+        toast.success("Đăng ký thành công!!!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
         // đăng ký thành công thì tắt popup
         dispatch(createAction(actionTypes.SET_LOGIN, false));
     }, [dispatch]);
@@ -232,6 +243,7 @@ const SignUp = () => {
                     </Button>
                 </div>
             </form>
+            <ToastContainer />
         </>
     );
 };

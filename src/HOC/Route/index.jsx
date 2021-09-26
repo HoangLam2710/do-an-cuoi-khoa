@@ -17,4 +17,4 @@ const createRoute = (condition) => {
     };
 };
 
-export const AuthRoute = createRoute(() => localStorage.getItem("taiKhoan"));
+export const AuthRoute = createRoute(() => localStorage.getItem("t"));
