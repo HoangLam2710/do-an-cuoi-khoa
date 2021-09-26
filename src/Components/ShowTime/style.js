@@ -7,6 +7,13 @@ const useStyle = makeStyles((theme) => {
             display: "flex",
             padding: "20px 0",
             borderBottom: "1px solid #f0f0f0",
+            [theme.breakpoints.down("xs")]: {
+                "& img": {
+                    width: "20%",
+                    height: 100,
+                    objectFit: "cover",
+                },
+            },
         },
         showtimeCinema: {
             paddingLeft: 10,
@@ -19,6 +26,11 @@ const useStyle = makeStyles((theme) => {
                     fontSize: 12,
                     fontWeight: 600,
                 },
+                [theme.breakpoints.down("xs")]: {
+                    fontSize: 18,
+                    lineHeight: "25px",
+                    marginBottom: 20,
+                },
             },
         },
         showtime: {
@@ -26,6 +38,14 @@ const useStyle = makeStyles((theme) => {
             "& svg": {
                 width: 14,
                 height: 10,
+            },
+            [theme.breakpoints.down("xs")]: {
+                "& svg": {
+                    display: "none",
+                },
+                "& .MuiTypography-caption": {
+                    display: "none",
+                },
             },
         },
         time: {
@@ -42,6 +62,9 @@ const useStyle = makeStyles((theme) => {
             "&:hover": {
                 backgroundColor: theme.palette.primary.main,
                 color: theme.palette.primary.contrastText,
+            },
+            [theme.breakpoints.down("xs")]: {
+                marginBottom: 5,
             },
         },
     };

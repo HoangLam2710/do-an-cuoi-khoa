@@ -8,7 +8,9 @@ export const fetchCinemas = (dispatch) => {
         method: "GET",
     })
         .then((res) => {
-            dispatch(createAction(actionTypes.SET_CINEMAS, res.data.content));
+            dispatch(
+                createAction(actionTypes.SET_CINEMALIST, res.data.content)
+            );
         })
         .catch((err) => console.log(err));
 };

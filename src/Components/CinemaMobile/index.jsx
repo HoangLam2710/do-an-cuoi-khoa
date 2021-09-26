@@ -1,5 +1,8 @@
 import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { createAction } from "../../Store/actions";
+import { actionTypes } from "../../Store/actions/types";
 import { fetchCinemas, fetchCumRap } from "../../Store/actions/cinema";
 import { Collapse } from "antd";
 import { Box, Typography } from "@material-ui/core";
@@ -7,13 +10,20 @@ import useStyle from "./style";
 
 const { Panel } = Collapse;
 
-const Cinema = () => {
+const CinemaMobile = () => {
     const classes = useStyle();
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(createAction(actionTypes.SHOW_LOADING));
+        window.scroll({ top: 0, behavior: "smooth" });
+
         dispatch(fetchCinemas);
         dispatch(fetchCumRap("BHDStar"));
+
+        setTimeout(() => {
+            dispatch(createAction(actionTypes.HIDDEN_LOADING));
+        }, 2000);
     }, [dispatch]);
 
     const cinemaList = useSelector((state) => {
@@ -65,10 +75,11 @@ const Cinema = () => {
                                 {listCumRap &&
                                     listCumRap[0]?.lstCumRap.map((cumrap) => {
                                         return (
-                                            <Box
+                                            <NavLink
                                                 className={
                                                     classes.selectLocationCinema
                                                 }
+                                                to={`/cinema/${cumrap.maCumRap}`}
                                             >
                                                 <img
                                                     src={cumrap.hinhAnh}
@@ -109,7 +120,7 @@ const Cinema = () => {
                                                         {cumrap.diaChi}
                                                     </Typography>
                                                 </Box>
-                                            </Box>
+                                            </NavLink>
                                         );
                                     })}
                             </Panel>
@@ -120,4 +131,4 @@ const Cinema = () => {
     );
 };
 
-export default Cinema;
+export default CinemaMobile;

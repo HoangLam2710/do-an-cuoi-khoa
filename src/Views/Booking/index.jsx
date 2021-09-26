@@ -1,45 +1,61 @@
-import React, { Fragment, useCallback, useRef } from "react";
-import { useEffect } from "react";
+import React, { Fragment, useCallback, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CustomCard } from "@tsamantanis/react-glassmorphism";
-import "@tsamantanis/react-glassmorphism/dist/index.css";
-import { Container, Grid, Typography, Box, Button } from "@material-ui/core";
-import useStyle from "./style";
-import {
-  getMovieRoomData,
-  bookingSeatAction,
-  bookingTicket,
-} from "../../Store/actions/booking";
-import classNames from "classnames";
-import Modal from "@material-ui/core/Modal";
-import ClearIcon from "@material-ui/icons/Clear";
-import Loading from "../../Components/Loading/Loading";
 import { NavLink } from "react-router-dom";
 
+import {
+    Container,
+    Grid,
+    Typography,
+    Box,
+    Button,
+    Modal,
+} from "@material-ui/core";
+import ClearIcon from "@material-ui/icons/Clear";
+import { CustomCard } from "@tsamantanis/react-glassmorphism";
+
+import {
+    getMovieRoomData,
+    bookingSeatAction,
+    bookingTicket,
+} from "../../Store/actions/booking";
+import { createAction } from "../../Store/actions";
+import { actionTypes } from "../../Store/actions/types";
+
+import classNames from "classnames";
+import useStyle from "./style";
+import "@tsamantanis/react-glassmorphism/dist/index.css";
+
 const Booking = (props) => {
-  const classes = useStyle();
-  const dispatch = useDispatch();
+    const classes = useStyle();
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getMovieRoomData(props.match.params.id));
+    useEffect(() => {
+        dispatch(createAction(actionTypes.SHOW_LOADING));
+        window.scroll({ top: 0, behavior: "smooth" });
 
-    // connection.on("loadDanhSachGheDaDat", (dsGheKhachDat) => {
-    //   // dsGheKhachDat = dsGheKhachDat.filter(
-    //   //   (item) => item.taiKhoan !== userInfoData.taiKhoan
-    //   // );
+        dispatch(getMovieRoomData(props.match.params.id));
 
-    //   // let otherBookedSeat = dsGheKhachDat.reduce((res, item, index) => {
-    //   //   let arrSeat = JSON.parse(item.danhSachGhe);
-    //   console.log("dansachghedadat", dsGheKhachDat);
-    //   //   return [...res, ...arrSeat];
-    //   // }, []);
-    //   // dispatch(otherBookingSeatAction(otherBookedSeat));
-    // });
+        setTimeout(() => {
+            dispatch(createAction(actionTypes.HIDDEN_LOADING));
+        }, 2000);
 
-    // connection.on("loadDanhSachGheDaDat", (dsGheKhachDat) => {
-    //   console.log("dsGheKhachDat", dsGheKhachDat);
-    // });
-  }, [dispatch, props.match.params.id]);
+        // connection.on("loadDanhSachGheDaDat", (dsGheKhachDat) => {
+        //   // dsGheKhachDat = dsGheKhachDat.filter(
+        //   //   (item) => item.taiKhoan !== userInfoData.taiKhoan
+        //   // );
+
+        //   // let otherBookedSeat = dsGheKhachDat.reduce((res, item, index) => {
+        //   //   let arrSeat = JSON.parse(item.danhSachGhe);
+        //   console.log("dansachghedadat", dsGheKhachDat);
+        //   //   return [...res, ...arrSeat];
+        //   // }, []);
+        //   // dispatch(otherBookingSeatAction(otherBookedSeat));
+        // });
+
+        // connection.on("loadDanhSachGheDaDat", (dsGheKhachDat) => {
+        //   console.log("dsGheKhachDat", dsGheKhachDat);
+        // });
+    }, [dispatch, props.match.params.id]);
 
   const movieRoomData = useSelector((state) => {
     return state.booking.movieRoomData;
@@ -55,10 +71,6 @@ const Booking = (props) => {
 
   const userInfoData = useSelector((state) => {
     return state.user?.user;
-  });
-
-  const isLoading = useSelector((state) => {
-    return state.booking.loading;
   });
 
   const bookTicketStatus = useSelector((state) => {
@@ -128,10 +140,6 @@ const Booking = (props) => {
     });
   };
 
-  // const handleBookTicket = (ticketList) => {
-  //   dispatch(bookingTicket(ticketList));
-  // };
-
   const handleBookTicket = useCallback(
     (ticketList) => {
       dispatch(bookingTicket(ticketList));
@@ -196,7 +204,7 @@ const Booking = (props) => {
             color="secondary"
             className={classes.resBtn}
           >
-            Đến trang chi tiết
+            Tài khoản
           </Button>
         </NavLink>
       </div>
@@ -205,8 +213,6 @@ const Booking = (props) => {
 
   return (
     <>
-      {" "}
-      {isLoading ? <Loading /> : null}
       <Modal
         open={open}
         onClose={handleClose}

@@ -188,7 +188,7 @@ const useStyle = makeStyles((theme) => {
                         padding: 10,
                         width: 70,
                         borderBottom: "1px solid #f0f0f0",
-                        opacity: ".5",
+                        opacity: 0.5,
                         transition: "all .5s",
                         "&:hover": {
                             opacity: 1,
@@ -221,6 +221,13 @@ const useStyle = makeStyles((theme) => {
                     },
                 },
             },
+            "& .ant-tabs-tab": {
+                "&.ant-tabs-tab-active": {
+                    "& $selectLocationCinema": {
+                        opacity: "1 !important",
+                    },
+                },
+            },
         },
         // css phần cụm rạp
         selectLocationCinema: {
@@ -228,7 +235,7 @@ const useStyle = makeStyles((theme) => {
             margin: "5px 20px 0",
             paddingBottom: 5,
             borderBottom: "1px solid #f0f0f0",
-            opacity: "1",
+            opacity: 0.8,
             transition: "all .5s",
             "& img": {
                 padding: "0px !important",
@@ -236,6 +243,7 @@ const useStyle = makeStyles((theme) => {
                 height: 50,
                 border: "none !important",
                 alignSelf: "center",
+                opacity: 1,
             },
             "&:hover": {
                 opacity: 1,
@@ -256,6 +264,12 @@ const useStyle = makeStyles((theme) => {
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 maxWidth: "100%",
+            },
+            "& a": {
+                color: theme.palette.primary.main,
+                "&:hover": {
+                    color: theme.palette.primary.dark,
+                },
             },
         },
         // end cinema

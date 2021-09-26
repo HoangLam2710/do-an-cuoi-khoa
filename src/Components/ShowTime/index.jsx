@@ -1,11 +1,38 @@
-import React from "react";
-import { Typography, Box } from "@material-ui/core";
-import useStyle from "./style";
+import React, { memo, useCallback } from "react";
+import { useHistory } from "react-router";
+import { Typography, Box, Button } from "@material-ui/core";
 import { AccessTime } from "@material-ui/icons";
+import * as dayjs from "dayjs";
+
+import { toast } from "react-toastify";
+import "../../../node_modules/react-toastify/dist/ReactToastify.css";
+
+import useStyle from "./style";
 
 const ShowTime = (props) => {
     const classes = useStyle();
     const { hot, hinhAnh, tenPhim, lstLichChieuTheoPhim } = props.phim || {};
+
+    const history = useHistory();
+
+    const alertSignIn = useCallback(
+        (maLichChieu) => {
+            if (!localStorage.getItem("t")) {
+                return toast.warn("Xin vui lòng đăng nhập để đặt vé!!!", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+            return history.push(`/ticketroom/${maLichChieu}`);
+        },
+        [history]
+    );
+
     return (
         <Box className={classes.showtimeWrap}>
             <img src={hinhAnh} alt={tenPhim} />
@@ -18,14 +45,17 @@ const ShowTime = (props) => {
                     <Typography variant="caption">Thời gian chiếu</Typography>
                     {lstLichChieuTheoPhim.map((lichchieu) => {
                         return (
-                            <Typography
+                            <Button
                                 key={lichchieu.maLichChieu}
                                 className={classes.time}
+                                onClick={() =>
+                                    alertSignIn(lichchieu.maLichChieu)
+                                }
                             >
-                                {lichchieu.ngayChieuGioChieu
-                                    .split("T")[1]
-                                    .slice(0, 5)}
-                            </Typography>
+                                {dayjs(lichchieu.ngayChieuGioChieu).format(
+                                    "HH:mm"
+                                )}
+                            </Button>
                         );
                     })}
                 </Box>
@@ -34,4 +64,4 @@ const ShowTime = (props) => {
     );
 };
 
-export default ShowTime;
+export default memo(ShowTime);

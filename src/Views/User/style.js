@@ -35,6 +35,14 @@ const useStyle = makeStyles((theme) => {
         },
         table: {
             minWidth: 650,
+            [theme.breakpoints.down("xs")]: {
+                minWidth: 320,
+            },
+        },
+        hiddenMobile: {
+            [theme.breakpoints.down("xs")]: {
+                display: "none",
+            },
         },
     };
 });

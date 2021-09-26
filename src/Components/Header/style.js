@@ -103,6 +103,11 @@ const useStyle = makeStyles((theme) => {
             transition: "all .4s",
             overflow: "hidden",
             overflowY: "scroll",
+            "& a": {
+                "&:hover": {
+                    color: theme.palette.primary.dark,
+                },
+            },
         },
         wrapFirst: {
             padding: "10px 0",
