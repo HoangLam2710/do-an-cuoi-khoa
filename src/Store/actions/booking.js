@@ -31,11 +31,12 @@ export const bookingSeatAction =
     };
 
 export const bookingTicket = (ticketList) => async (dispatch) => {
-    request({
-        url: "https://movienew.cybersoft.edu.vn/api/QuanLyDatVe/DatVe",
-        method: "POST",
-        data: ticketList,
-    })
+
+  request({
+    url: "https://movienew.cybersoft.edu.vn/api/QuanLyDatVe/DatVe",
+    method: "POST",
+    data: ticketList,
+  })
         .then(async (res) => {
             dispatch(
                 createAction(actionTypes.BOOKING_TICKET, res.data.content)
