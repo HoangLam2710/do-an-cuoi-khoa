@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useCallback, useRef } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomCard } from "@tsamantanis/react-glassmorphism";
@@ -14,6 +14,7 @@ import classNames from "classnames";
 import Modal from "@material-ui/core/Modal";
 import ClearIcon from "@material-ui/icons/Clear";
 import Loading from "../../Components/Loading/Loading";
+import { NavLink } from "react-router-dom";
 
 const Booking = (props) => {
   const classes = useStyle();
@@ -68,14 +69,19 @@ const Booking = (props) => {
   const { tenPhim, tenRap, hinhAnh, ngayChieu, gioChieu, tenCumRap } =
     thongTinPhim;
 
-  const handleBookingSeat = (seat) => {
-    dispatch(bookingSeatAction(seat, props.match.params.id));
-  };
+  const handleBookingSeat = useCallback(
+    (seat) => {
+      dispatch(bookingSeatAction(seat, props.match.params.id));
+    },
+    [dispatch, props.match.params.id]
+  );
 
+  //convert number into number with commas
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
+  //render cinema seats
   const renderSeats = () => {
     return danhSachGhe?.map((seat, index) => {
       const vipSeatClass = seat.loaiGhe === "Vip" ? classes.vipSeat : "";
@@ -122,11 +128,18 @@ const Booking = (props) => {
     });
   };
 
-  const handleBookTicket = (ticketList) => {
-    dispatch(bookingTicket(ticketList));
-  };
+  // const handleBookTicket = (ticketList) => {
+  //   dispatch(bookingTicket(ticketList));
+  // };
 
-  function getModalStyle() {
+  const handleBookTicket = useCallback(
+    (ticketList) => {
+      dispatch(bookingTicket(ticketList));
+    },
+    [dispatch]
+  );
+
+  const getModalStyle = () => {
     const top = 50;
     const left = 50;
 
@@ -134,9 +147,11 @@ const Booking = (props) => {
       top: `${top}%`,
       left: `${left}%`,
       transform: `translate(-${top}%, -${left}%)`,
+      height: "150px",
     };
-  }
+  };
 
+  //state open of modal
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -161,9 +176,30 @@ const Booking = (props) => {
 
   const [modalStyle] = React.useState(getModalStyle);
 
+  //body of modal
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">{status.current}</h2>
+      <h2 className={classes.notifTitle}>✔{status.current}</h2>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <NavLink exact to="/">
+          <Button
+            variant="contained"
+            className={classes.resBtn}
+            style={{ backgroundColor: "#fbbd61" }}
+          >
+            Về trang chủ
+          </Button>
+        </NavLink>
+        <NavLink to="/user">
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.resBtn}
+          >
+            Đến trang chi tiết
+          </Button>
+        </NavLink>
+      </div>
     </div>
   );
 
@@ -344,6 +380,7 @@ const Booking = (props) => {
                   <Typography
                     variant="body2"
                     className={classNames(classes.bookingInfoItem)}
+                    style={{ width: "70%" }}
                   >
                     {bookingSeatData
                       .sort((seat1, seat2) => seat1.maGhe - seat2.maGhe)

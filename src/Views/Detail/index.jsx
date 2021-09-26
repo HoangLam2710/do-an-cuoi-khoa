@@ -40,6 +40,7 @@ const Detail = (props) => {
 
   const [isOpen, setOpen] = useState(false); //handle open modal
 
+  //get trailer video id
   const getTrailerId = (url) => {
     var regExp =
       /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
