@@ -31,7 +31,6 @@ export const bookingSeatAction =
     };
 
 export const bookingTicket = (ticketList) => async (dispatch) => {
-
   request({
     url: "https://movienew.cybersoft.edu.vn/api/QuanLyDatVe/DatVe",
     method: "POST",
