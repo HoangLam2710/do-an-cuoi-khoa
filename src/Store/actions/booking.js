@@ -29,7 +29,6 @@ export const bookingSeatAction =
   };
 
 export const bookingTicket = (ticketList) => async (dispatch) => {
-  dispatch(createAction(actionTypes.DISPLAY_LOADING));
   request({
     url: "https://movienew.cybersoft.edu.vn/api/QuanLyDatVe/DatVe",
     method: "POST",
@@ -38,7 +37,6 @@ export const bookingTicket = (ticketList) => async (dispatch) => {
     .then(async (res) => {
       dispatch(createAction(actionTypes.BOOKING_TICKET, res.data.content));
       await dispatch(getMovieRoomData(ticketList.maLichChieu));
-      dispatch(createAction(actionTypes.HIDDEN_LOADING));
     })
     .catch((err) => console.log(err));
 };
