@@ -58,12 +58,13 @@ const Detail = (props) => {
 
     const [isOpen, setOpen] = useState(false); //handle open modal
 
-    const getTrailerId = useCallback((url) => {
-        var regExp =
-            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        var match = url ? url.match(regExp) : "";
-        return match && match[7].length === 11 ? match[7] : false;
-    }, []);
+    //get trailer video id
+  const getTrailerId = (url) => {
+    var regExp =
+      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url ? url.match(regExp) : "";
+    return match && match[7].length === 11 ? match[7] : false;
+  };
 
     const alertSignIn = useCallback(
         (maLichChieu) => {

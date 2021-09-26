@@ -15,6 +15,12 @@ const useStyle = makeStyles((theme) => {
         background: theme.palette.primary.main,
       },
     },
+    resBtn: {
+      width: "100%",
+      color: "white",
+      padding: "10px 0",
+      margin: "0 10px",
+    },
     bookingInfoContainer: {
       boxShadow: "rgba(252, 252, 252, 0.486) 0px 8px 24px",
       borderRadius: "4px",
@@ -34,6 +40,7 @@ const useStyle = makeStyles((theme) => {
       fontWeight: "500",
       display: "flex",
       flexWrap: "wrap",
+      justifyContent: "flex-end",
       [theme.breakpoints.down("xs")]: {
         fontSize: "14px",
       },
@@ -121,7 +128,6 @@ const useStyle = makeStyles((theme) => {
       padding: theme.spacing(2, 4, 3),
       textAlign: "center",
     },
-
     break: {
       display: "block",
       [theme.breakpoints.down("xs")]: {
@@ -130,6 +136,11 @@ const useStyle = makeStyles((theme) => {
       [theme.breakpoints.down("md")]: {
         display: "none",
       },
+    },
+    notifTitle: {
+      marginBottom: "20px",
+      fontSize: "24px",
+      fontWeight: "500",
     },
   };
 });
