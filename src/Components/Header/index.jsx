@@ -10,6 +10,7 @@ import {
     Box,
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 import useStyle from "./style";
 import SignIn from "../SignIn";
 import SignUp from "../SignUp";
@@ -77,15 +78,15 @@ const Header = () => {
                 </Container>
 
                 <Container className={classes.menu}>
-                    <a href="/#listfilm" className={classes.navLink}>
+                    <HashLink to="/#listfilm" className={classes.navLink}>
                         Lịch chiếu
-                    </a>
-                    <a href="/#cinema" className={classes.navLink}>
+                    </HashLink>
+                    <HashLink to="/#cinema" className={classes.navLink}>
                         Cụm rạp
-                    </a>
-                    <a href="/#app" className={classes.navLink}>
+                    </HashLink>
+                    <HashLink to="/#app" className={classes.navLink}>
                         Ứng dụng
-                    </a>
+                    </HashLink>
                 </Container>
 
                 <Container className={classes.signin}>
@@ -178,18 +179,21 @@ const Header = () => {
                                 onClick={hideCinema(false)}
                             />
                         </Container>
-                        <a href="/#listfilm" className={classes.navLinkMobile}>
+                        <HashLink
+                            to="/#listfilm"
+                            className={classes.navLinkMobile}
+                        >
                             Lịch chiếu
-                        </a>
+                        </HashLink>
                         <NavLink
                             to="/cinema-mobile"
                             className={classes.navLinkMobile}
                         >
                             Cụm rạp
                         </NavLink>
-                        <a href="/#app" className={classes.navLinkMobile}>
+                        <HashLink to="/#app" className={classes.navLinkMobile}>
                             Ứng dụng
-                        </a>
+                        </HashLink>
                     </Container>
                 </Container>
             </Toolbar>

@@ -10,7 +10,7 @@ const useStyle = makeStyles((theme) => {
             },
         },
         logo: {
-            backgroundImage: 'url("../logo.svg")',
+            backgroundImage: 'url("/logo.svg")',
             height: 40,
             width: 180,
             backgroundPosition: "center",
