@@ -138,7 +138,7 @@ const Header = () => {
 
                 <Container className={classes.rightMenu}>
                     <img
-                        src="../assets/img/menu-options.png"
+                        src="/assets/img/menu-options.png"
                         alt="menu mobile"
                         onClick={hideCinema(true)}
                     />
@@ -159,7 +159,7 @@ const Header = () => {
                             ) : (
                                 <Box className={classes.titleMenuMobile}>
                                     <img
-                                        src="../assets/img/avatar.png"
+                                        src="/assets/img/avatar.png"
                                         alt="login"
                                     />
                                     <Typography
@@ -173,7 +173,7 @@ const Header = () => {
                                 </Box>
                             )}
                             <img
-                                src="../assets/img/next-session.png"
+                                src="/assets/img/next-session.png"
                                 alt="menu mobile"
                                 className={classes.close}
                                 onClick={hideCinema(false)}
@@ -191,7 +191,10 @@ const Header = () => {
                         >
                             Cụm rạp
                         </NavLink>
-                        <HashLink to="/#app" className={classes.navLinkMobile}>
+                        <HashLink
+                            href="/#app"
+                            className={classes.navLinkMobile}
+                        >
                             Ứng dụng
                         </HashLink>
                     </Container>
