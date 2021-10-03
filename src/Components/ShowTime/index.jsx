@@ -43,21 +43,23 @@ const ShowTime = (props) => {
                 <Box className={classes.showtime}>
                     <AccessTime></AccessTime>
                     <Typography variant="caption">Thời gian chiếu</Typography>
-                    {lstLichChieuTheoPhim.map((lichchieu) => {
-                        return (
-                            <Button
-                                key={lichchieu.maLichChieu}
-                                className={classes.time}
-                                onClick={() =>
-                                    alertSignIn(lichchieu.maLichChieu)
-                                }
-                            >
-                                {dayjs(lichchieu.ngayChieuGioChieu).format(
-                                    "HH:mm"
-                                )}
-                            </Button>
-                        );
-                    })}
+                    <Box>
+                        {lstLichChieuTheoPhim?.slice(0, 6).map((lichchieu) => {
+                            return (
+                                <Button
+                                    key={lichchieu.maLichChieu}
+                                    className={classes.time}
+                                    onClick={() =>
+                                        alertSignIn(lichchieu.maLichChieu)
+                                    }
+                                >
+                                    {dayjs(lichchieu.ngayChieuGioChieu).format(
+                                        "HH:mm"
+                                    )}
+                                </Button>
+                            );
+                        })}
+                    </Box>
                 </Box>
             </Box>
         </Box>

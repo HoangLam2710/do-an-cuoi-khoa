@@ -39,6 +39,9 @@ const useStyle = makeStyles((theme) => {
                 width: 14,
                 height: 10,
             },
+            "& .MuiBox-root": {
+                marginTop: 5,
+            },
             [theme.breakpoints.down("xs")]: {
                 "& svg": {
                     display: "none",
@@ -58,7 +61,7 @@ const useStyle = makeStyles((theme) => {
             borderRadius: 5,
             backgroundColor: "#d8d8d8",
             transition: "all .5s",
-            marginBottom: 10,
+            marginBottom: 5,
             "&:hover": {
                 backgroundColor: theme.palette.primary.main,
                 color: theme.palette.primary.contrastText,
