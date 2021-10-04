@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import { useCallback } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { signInUser } from "../../Store/actions/auth";
+import { signUpUser } from "../../Store/actions/auth";
 import { actionTypes } from "../../Store/actions/types";
 import { createAction } from "../../Store/actions";
 
@@ -25,17 +25,17 @@ import { ToastContainer, toast } from "react-toastify";
 import "../../../node_modules/react-toastify/dist/ReactToastify.css";
 
 const validationSchema = yup.object().shape({
-    taiKhoan: yup.string().required("This field is required!"),
-    matKhau: yup.string().required("This field is required!"),
-    hoTen: yup.string().required("This field is required!"),
+    taiKhoan: yup.string().required("Không được bỏ trống!"),
+    matKhau: yup.string().required("Không được bỏ trống!"),
+    hoTen: yup.string().required("Không được bỏ trống!"),
     email: yup
         .string()
-        .email("Invalid Email")
-        .required("This field is required!"),
+        .email("Sai định dạng Email")
+        .required("Không được bỏ trống!"),
     soDt: yup
         .string()
-        .required("This field is required!")
-        .matches(/^[0-9]{10}$/g, "Invalid Phone number"),
+        .required("Không được bỏ trống!")
+        .matches(/^[0-9]{10}$/g, "Sai định dạng số điện thoại"),
 });
 
 const SignUp = () => {
@@ -90,7 +90,7 @@ const SignUp = () => {
             e.preventDefault();
             setAllTouched();
             if (!formik.isValid) return;
-            dispatch(signInUser(formik.values, goToHome));
+            dispatch(signUpUser(formik.values, goToHome));
         },
         [dispatch, formik.isValid, formik.values, setAllTouched, goToHome]
     );

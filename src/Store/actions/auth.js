@@ -1,8 +1,9 @@
 import { createAction } from "./index";
 import { actionTypes } from "./types";
 import { request } from "../../API/request";
+import { toast } from "react-toastify";
 
-export const signInUser = (user, callback) => () => {
+export const signUpUser = (user, callback) => () => {
     request({
         url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/DangKy",
         method: "POST",
@@ -11,10 +12,20 @@ export const signInUser = (user, callback) => () => {
         .then((res) => {
             callback();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            toast.warn(err.response.data.content, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        });
 };
 
-export const signUpUser = (user, callback) => (dispatch) => {
+export const signInUser = (user, callback) => (dispatch) => {
     request({
         url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/DangNhap",
         method: "POST",
@@ -24,9 +35,23 @@ export const signUpUser = (user, callback) => (dispatch) => {
             dispatch(createAction(actionTypes.SET_USER, res.data.content));
             localStorage.setItem("t", res.data.content.accessToken);
             localStorage.setItem("taiKhoan", res.data.content.taiKhoan);
+            // clear localStorage after one hour
+            setTimeout(function () {
+                localStorage.clear();
+            }, 1000 * 60 * 60);
             callback();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            toast.warn(err.response.data.content, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        });
 };
 
 export const getUser = (dispatch) => {

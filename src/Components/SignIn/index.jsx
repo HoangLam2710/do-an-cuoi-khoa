@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { useCallback } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { signUpUser } from "../../Store/actions/auth";
+import { signInUser } from "../../Store/actions/auth";
 import { actionTypes } from "../../Store/actions/types";
 import { createAction } from "../../Store/actions";
 
@@ -19,8 +19,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "../../../node_modules/react-toastify/dist/ReactToastify.css";
 
 const validationSchema = yup.object().shape({
-    taiKhoan: yup.string().required("This field is required!"),
-    matKhau: yup.string().required("This field is required!"),
+    taiKhoan: yup.string().required("Không được bỏ trống!"),
+    matKhau: yup.string().required("Không được bỏ trống!"),
 });
 
 const SignUp = () => {
@@ -51,7 +51,7 @@ const SignUp = () => {
         );
     }, [formik]);
 
-    const goToHome = useCallback(() => {
+    const alertSuccess = useCallback(() => {
         toast.success("Đăng nhập thành công!!!", {
             position: "top-right",
             autoClose: 3000,
@@ -70,9 +70,9 @@ const SignUp = () => {
             e.preventDefault();
             setAllTouched();
             if (!formik.isValid) return;
-            dispatch(signUpUser(formik.values, goToHome));
+            dispatch(signInUser(formik.values, alertSuccess));
         },
-        [dispatch, formik.isValid, formik.values, setAllTouched, goToHome]
+        [dispatch, formik.isValid, formik.values, setAllTouched, alertSuccess]
     );
 
     return (
