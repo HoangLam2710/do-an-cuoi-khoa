@@ -122,9 +122,11 @@ const Ticket = (props) => {
     );
 };
 
-const User = () => {
+const User = (props) => {
     const classes = useStyle();
     const dispatch = useDispatch();
+
+    const [keyTab, setKeyTab] = useState("tai-khoan");
 
     const user = useSelector((state) => {
         return state.user.user;
@@ -135,17 +137,26 @@ const User = () => {
         window.scroll({ top: 0, behavior: "smooth" });
 
         dispatch(getUser);
+        setKeyTab(props.match.params.id);
 
         setTimeout(() => {
             dispatch(createAction(actionTypes.HIDDEN_LOADING));
         }, 2000);
-    }, [dispatch]);
+    }, [dispatch, props.match.params.id]);
+
+    const handleTabClick = (key) => {
+        setKeyTab(key);
+    };
 
     return (
         <>
             {user && (
                 <Container className={classes.user} maxWidth="md">
-                    <Tabs defaultActiveKey="tai-khoan" tabPosition="left">
+                    <Tabs
+                        activeKey={keyTab}
+                        tabPosition="left"
+                        onChange={handleTabClick}
+                    >
                         <TabPane tab="Thông tin tài khoản" key="tai-khoan">
                             <Box>
                                 <List

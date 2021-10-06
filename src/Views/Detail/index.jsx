@@ -34,12 +34,6 @@ const { TabPane } = Tabs;
 const Detail = (props) => {
     const classes = useStyle();
     const dispatch = useDispatch();
-    const movieDetail = useSelector((state) => {
-        return state.movie.movieDetail;
-    });
-    const showTimes = useSelector((state) => {
-        return state.movie.showtimes;
-    });
 
     useEffect(() => {
         dispatch(createAction(actionTypes.SHOW_LOADING));
@@ -53,18 +47,25 @@ const Detail = (props) => {
         }, 2000);
     }, [dispatch, props.match.params.id]);
 
+    const movieDetail = useSelector((state) => {
+        return state.movie.movieDetail;
+    });
+    const showTimes = useSelector((state) => {
+        return state.movie.showtimes;
+    });
+
     const { danhGia, hinhAnh, moTa, ngayKhoiChieu, tenPhim, trailer } =
         movieDetail || {};
 
     const [isOpen, setOpen] = useState(false); //handle open modal
 
     //get trailer video id
-  const getTrailerId = (url) => {
-    var regExp =
-      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    var match = url ? url.match(regExp) : "";
-    return match && match[7].length === 11 ? match[7] : false;
-  };
+    const getTrailerId = (url) => {
+        var regExp =
+            /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        var match = url ? url.match(regExp) : "";
+        return match && match[7].length === 11 ? match[7] : false;
+    };
 
     const alertSignIn = useCallback(
         (maLichChieu) => {

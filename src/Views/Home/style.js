@@ -176,6 +176,7 @@ const useStyle = makeStyles((theme) => {
         brandCinema: {
             border: "1px solid #f0f0f0",
             borderRadius: 5,
+            position: "relative",
             "& .ant-tabs-nav": {
                 width: 92,
                 "& .ant-tabs-tab": {
@@ -201,6 +202,18 @@ const useStyle = makeStyles((theme) => {
                     },
                 },
             },
+        },
+        loadingTable: {
+            width: "100%",
+            height: 426,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            backgroundColor: "rgba(255,255,255,.9)",
+            zIndex: 2,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
         },
         locationCinema: {
             "& .ant-tabs-nav": {
