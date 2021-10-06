@@ -1,14 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import {
-    Container,
-    Typography,
-    Grid,
-    Box,
-    Button,
-    CircularProgress,
-} from "@material-ui/core";
+import { Container, Typography, Grid, Box, Button } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 import Pagination from "@material-ui/lab/Pagination";
 import { PlayArrow } from "@material-ui/icons";
@@ -59,8 +52,6 @@ const { TabPane } = Tabs;
 const Home = (props) => {
     const classes = useStyle();
     const dispatch = useDispatch();
-
-    const [loadingTable, setLoadingTable] = useState(false);
 
     // setting slider homepage
     const settings = {
@@ -137,11 +128,7 @@ const Home = (props) => {
     const selectCinema = useCallback(
         (maHeThongRap) => {
             return () => {
-                setLoadingTable(true);
                 dispatch(fetchCumRap(maHeThongRap));
-                setTimeout(() => {
-                    setLoadingTable(false);
-                }, 2000);
             };
         },
         [dispatch]
@@ -263,12 +250,6 @@ const Home = (props) => {
                     style={{ padding: "6rem 0" }}
                     className={classes.cinemaList}
                 >
-                    {loadingTable && (
-                        <Box className={classes.loadingTable}>
-                            <CircularProgress />
-                        </Box>
-                    )}
-
                     <Tabs
                         tabPosition="left"
                         type="card"

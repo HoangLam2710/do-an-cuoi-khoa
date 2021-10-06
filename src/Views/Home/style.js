@@ -173,18 +173,6 @@ const useStyle = makeStyles((theme) => {
                 display: "none",
             },
         },
-        loadingTable: {
-            width: "100%",
-            height: 440,
-            position: "absolute",
-            top: "15%",
-            left: 0,
-            backgroundColor: "rgba(255,255,255,.9)",
-            zIndex: 2,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-        },
         // css phần các thương hiệu cinema
         brandCinema: {
             border: "1px solid #f0f0f0",
