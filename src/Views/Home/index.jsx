@@ -1,7 +1,14 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { Container, Typography, Grid, Box, Button } from "@material-ui/core";
+import {
+    Container,
+    Typography,
+    Grid,
+    Box,
+    Button,
+    CircularProgress,
+} from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 import Pagination from "@material-ui/lab/Pagination";
 import { PlayArrow } from "@material-ui/icons";
@@ -52,6 +59,8 @@ const { TabPane } = Tabs;
 const Home = (props) => {
     const classes = useStyle();
     const dispatch = useDispatch();
+
+    const [loadingTable, setLoadingTable] = useState(false);
 
     // setting slider homepage
     const settings = {
@@ -128,10 +137,10 @@ const Home = (props) => {
     const selectCinema = useCallback(
         (maHeThongRap) => {
             return () => {
-                dispatch(createAction(actionTypes.SHOW_LOADING));
+                setLoadingTable(true);
                 dispatch(fetchCumRap(maHeThongRap));
                 setTimeout(() => {
-                    dispatch(createAction(actionTypes.HIDDEN_LOADING));
+                    setLoadingTable(false);
                 }, 2000);
             };
         },
@@ -259,6 +268,11 @@ const Home = (props) => {
                         type="card"
                         className={classes.brandCinema}
                     >
+                        {loadingTable && (
+                            <Box className={classes.loadingTable}>
+                                <CircularProgress />
+                            </Box>
+                        )}
                         {cinemaList &&
                             cinemaList.map((cinema) => {
                                 return (
@@ -378,6 +392,7 @@ const Home = (props) => {
                                 );
                             })}
                     </Tabs>
+
                     {/* Toast dùng để mở popupt thông báo nằm trong ShowTiem */}
                     <ToastContainer />
                 </Container>

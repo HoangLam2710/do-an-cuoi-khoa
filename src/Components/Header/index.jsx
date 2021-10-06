@@ -92,7 +92,10 @@ const Header = () => {
                 <Container className={classes.signin}>
                     {user ? (
                         <>
-                            <NavLink to="/user" className={classes.navLink}>
+                            <NavLink
+                                to="/user/tai-khoan"
+                                className={classes.navLink}
+                            >
                                 Hi, {user.hoTen?.toUpperCase()}
                             </NavLink>
                             <Typography

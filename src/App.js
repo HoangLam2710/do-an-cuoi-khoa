@@ -31,7 +31,7 @@ const App = () => {
                         <Route path="/cinema/:id" component={Cinema} />
                         <Route path="/cinema-mobile" component={CinemaMobile} />
                         <AuthRoute
-                            path="/user"
+                            path="/user/:id"
                             Component={User}
                             redirectPath="/"
                         />
