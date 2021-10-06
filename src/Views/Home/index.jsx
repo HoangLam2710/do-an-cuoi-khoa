@@ -260,19 +260,20 @@ const Home = (props) => {
                 <Container
                     id="cinema"
                     maxWidth="md"
-                    style={{ padding: "6rem 0" }}
+                    style={{ margin: "6rem auto" }}
                     className={classes.cinemaList}
                 >
+                    {loadingTable && (
+                        <Box className={classes.loadingTable}>
+                            <CircularProgress />
+                        </Box>
+                    )}
+
                     <Tabs
                         tabPosition="left"
                         type="card"
                         className={classes.brandCinema}
                     >
-                        {loadingTable && (
-                            <Box className={classes.loadingTable}>
-                                <CircularProgress />
-                            </Box>
-                        )}
                         {cinemaList &&
                             cinemaList.map((cinema) => {
                                 return (
