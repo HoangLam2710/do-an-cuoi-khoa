@@ -177,7 +177,7 @@ const useStyle = makeStyles((theme) => {
             width: "100%",
             height: 440,
             position: "absolute",
-            top: 0,
+            top: "15%",
             left: 0,
             backgroundColor: "rgba(255,255,255,.9)",
             zIndex: 2,

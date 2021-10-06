@@ -260,7 +260,7 @@ const Home = (props) => {
                 <Container
                     id="cinema"
                     maxWidth="md"
-                    style={{ margin: "6rem auto" }}
+                    style={{ padding: "6rem 0" }}
                     className={classes.cinemaList}
                 >
                     {loadingTable && (
