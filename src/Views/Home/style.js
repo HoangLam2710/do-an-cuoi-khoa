@@ -30,9 +30,12 @@ const useStyle = makeStyles((theme) => {
         },
         bannerImg: {
             width: "100%",
-            height: "20%",
+            height: "85vh",
+            [theme.breakpoints.down("md")]: {
+                height: 500,
+            },
             [theme.breakpoints.down("sm")]: {
-                height: 400,
+                height: "40vh",
             },
         },
         backgroundLinear: {
